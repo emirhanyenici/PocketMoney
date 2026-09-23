@@ -1,0 +1,25 @@
+## macOS
+.DS_Store
+
+## Xcode — kullanıcıya özel durum (pencere düzeni, breakpoint, şema sıralaması)
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+## Xcode — türetilmiş çıktılar
+build/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+## Swift Package Manager
+.build/
+.swiftpm/
+
+## Playground
+timeline.xctimeline
+playground.xcworkspace
