@@ -1,0 +1,7 @@
+[
+  { "name": "Nakit", "type": "cash" },
+  { "name": "Kredi kartı", "type": "creditCard" },
+  { "name": "Banka kartı", "type": "debitCard" },
+  { "name": "Havale / EFT", "type": "transfer" },
+  { "name": "Diğer", "type": "other" }
+]

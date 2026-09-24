@@ -708,8 +708,8 @@ CuzdanDefteri/
 ## 18. Yol Haritası (Sürümler)
 
 ### v0.1 — MVP "Kaydet ve gör"
-- [ ] Proje iskeleti, Design System token'ları, açık/koyu mod
-- [ ] SwiftData modelleri + seed (kategoriler, markalar)
+- [x] Proje iskeleti, Design System token'ları, açık/koyu mod
+- [x] SwiftData modelleri + seed (kategoriler, markalar)
 - [ ] Hızlı Ekle: gider **ve gelir** (tutar, kategori, alt kategori, marka, kanal, ödeme yöntemi, tarih, not)
 - [ ] İşlemler listesi (gün gruplu, düzenle, sil, geri al)
 - [ ] Özet ekranı (aylık toplam, net durum, geçen ay farkı, kategori donut, son işlemler)
