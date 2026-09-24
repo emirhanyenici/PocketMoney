@@ -10,6 +10,16 @@
 		DA93D1A1306481C600A980DA /* GUIDELINE.md in Resources */ = {isa = PBXBuildFile; fileRef = DA93D1A0306481C600A980DA /* GUIDELINE.md */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C0FFEE000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000100000000;
+			remoteInfo = PocketMoney;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* PocketMoney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketMoney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA93D1A0306481C600A980DA /* GUIDELINE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GUIDELINE.md; sourceTree = "<group>"; };
@@ -101,6 +111,9 @@
 			);
 			buildRules = (
 			);
+			dependencies = (
+				C0FFEE000000000000000002 /* PBXTargetDependency */,
+			);
 			fileSystemSynchronizedGroups = (
 				DAC381373065AF0400D5EBB7 /* DomainTests */,
 			);
@@ -124,6 +137,7 @@
 					};
 					DAC381353065AF0400D5EBB7 = {
 						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 000000000000000100000000;
 					};
 				};
 			};
@@ -174,6 +188,14 @@
 			);
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C0FFEE000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000100000000 /* PocketMoney */;
+			targetProxy = C0FFEE000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		000000000000000011000000 /* Debug configuration for PBXProject "PocketMoney" */ = {

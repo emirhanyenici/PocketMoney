@@ -14,14 +14,19 @@ enum AppModelContainer {
         )
     }
 
-    /// `#Preview`'lar için seed verisi yüklenmiş bellek içi container (Bölüm 15).
-    static func preview() -> ModelContainer {
+    #if DEBUG
+    /// `#Preview`'lar için seed ve örnek işlemler yüklenmiş bellek içi container (Bölüm 15).
+    static func preview(withTransactions: Bool = true) -> ModelContainer {
         do {
             let container = try make(inMemory: true)
             try SeedLoader(context: container.mainContext).seedIfNeeded()
+            if withTransactions {
+                try PreviewSampleData.insertTransactions(into: container.mainContext)
+            }
             return container
         } catch {
             fatalError("Önizleme container'ı kurulamadı: \(error)")
         }
     }
+    #endif
 }

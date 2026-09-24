@@ -1,7 +1,219 @@
 {
   "sourceLanguage" : "tr",
   "strings" : {
+    "“%@” olarak ekle" : {
 
+    },
+    "%@ geçen döneme göre" : {
+
+    },
+    "%@%lld lira" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld lira"
+          }
+        }
+      }
+    },
+    "%@%lld lira %lld kuruş" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld lira %3$lld kuruş"
+          }
+        }
+      }
+    },
+    "Ara veya yeni marka yaz" : {
+
+    },
+    "Artı" : {
+
+    },
+    "artı " : {
+
+    },
+    "Ayrıntılar" : {
+
+    },
+    "Bu ay henüz harcama yok. İlkini eklemek 5 saniye sürer." : {
+
+    },
+    "Bugün" : {
+
+    },
+    "Bugüne kopyalandı" : {
+
+    },
+    "Çarpı" : {
+
+    },
+    "Diğer" : {
+
+    },
+    "Dün" : {
+
+    },
+    "Eksi" : {
+
+    },
+    "En büyük gider: %@ (%@)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "En büyük gider: %1$@ (%2$@)"
+          }
+        }
+      }
+    },
+    "Geçen döneme göre %@ az" : {
+
+    },
+    "Geçen döneme göre %@ fazla" : {
+
+    },
+    "Geçen dönemle aynı" : {
+
+    },
+    "Gelir" : {
+
+    },
+    "Geri al" : {
+
+    },
+    "Geri alınamadı. Tekrar dene." : {
+
+    },
+    "Gider" : {
+
+    },
+    "Harcama ekle" : {
+
+    },
+    "Henüz kayıt yok. İlkini eklemek 5 saniye sürer." : {
+
+    },
+    "İlk harcamanı ekle" : {
+
+    },
+    "İşlemler" : {
+
+    },
+    "Kalan" : {
+
+    },
+    "Kanal" : {
+
+    },
+    "Kategori" : {
+
+    },
+    "Kategoriler" : {
+
+    },
+    "Kategorisiz" : {
+
+    },
+    "Kaydedildi" : {
+
+    },
+    "Kaydedilemedi" : {
+
+    },
+    "Kaydet" : {
+
+    },
+    "Kaydı düzenle" : {
+
+    },
+    "Kayıt sırasında bir sorun oldu. Tekrar dene." : {
+
+    },
+    "Kopyala" : {
+
+    },
+    "Kopyalanamadı. Tekrar dene." : {
+
+    },
+    "Mağazada" : {
+
+    },
+    "Marka / Mağaza" : {
+
+    },
+    "Markayı kaldır" : {
+
+    },
+    "Not" : {
+
+    },
+    "Ödeme yöntemi" : {
+
+    },
+    "Önceki dönem" : {
+
+    },
+    "Online" : {
+
+    },
+    "Özet" : {
+
+    },
+    "Sil" : {
+
+    },
+    "Silindi" : {
+
+    },
+    "Silinemedi. Tekrar dene." : {
+
+    },
+    "Son işlemler" : {
+
+    },
+    "Sonraki dönem" : {
+
+    },
+    "Tamam" : {
+
+    },
+    "Tarih" : {
+
+    },
+    "Temizle" : {
+
+    },
+    "Toplam" : {
+
+    },
+    "Toplam harcama" : {
+
+    },
+    "Tümünü gör" : {
+
+    },
+    "Tür" : {
+
+    },
+    "Tutar" : {
+
+    },
+    "Tutarı kontrol et. 0'dan büyük bir değer gir." : {
+
+    },
+    "Vazgeç" : {
+
+    },
+    "Virgül" : {
+
+    },
+    "Yeni kayıt" : {
+
+    }
   },
   "version" : "1.0"
 }
