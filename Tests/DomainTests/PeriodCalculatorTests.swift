@@ -52,6 +52,20 @@ struct PeriodCalculatorTests {
         #expect(period.start == istanbul.startOfDay(for: try date(2026, 9, 1)))
     }
 
+    @Test func rangeTitleShowsInclusiveLastDay() throws {
+        let salary = PeriodCalculator(startDay: 15, calendar: istanbul)
+        #expect(salary.rangeTitle(for: salary.period(containing: try date(2026, 9, 24))) == "15 Eylül – 14 Ekim")
+
+        let calendarMonth = PeriodCalculator(startDay: 1, calendar: istanbul)
+        #expect(calendarMonth.rangeTitle(for: calendarMonth.period(containing: try date(2026, 9, 24))) == "1 Eylül – 30 Eylül")
+    }
+
+    @Test func rangeTitleAddsYearsWhenCrossingYear() throws {
+        let calculator = PeriodCalculator(startDay: 15, calendar: istanbul)
+        let period = calculator.period(containing: try date(2026, 12, 20))
+        #expect(calculator.rangeTitle(for: period) == "15 Aralık 2026 – 14 Ocak 2027")
+    }
+
     @Test(arguments: [0, -3, 29, 31])
     func clampsStartDayToValidRange(startDay: Int) {
         #expect((1...28).contains(PeriodCalculator(startDay: startDay).startDay))

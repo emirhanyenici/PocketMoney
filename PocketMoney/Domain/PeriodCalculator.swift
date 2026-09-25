@@ -55,6 +55,19 @@ nonisolated struct PeriodCalculator: Sendable {
         return period.start.formatted(style)
     }
 
+    /// Dönemin gün aralığı: "15 Eylül – 14 Ekim". Yıl değişiyorsa yıllar da yazılır:
+    /// "15 Aralık 2026 – 14 Ocak 2027". Bitiş, hariç tutulan `end`'den bir gün öncesidir.
+    func rangeTitle(for period: Period, locale: Locale = Decimal.turkishLocale) -> String {
+        let lastDay = calendar.date(byAdding: .day, value: -1, to: period.end) ?? period.end
+        var style = Date.FormatStyle(locale: locale, calendar: calendar, timeZone: calendar.timeZone)
+            .day()
+            .month(.wide)
+        if calendar.component(.year, from: period.start) != calendar.component(.year, from: lastDay) {
+            style = style.year()
+        }
+        return "\(period.start.formatted(style)) – \(lastDay.formatted(style))"
+    }
+
     private func makePeriod(start: Date) -> Period {
         let end = shifted(start, byMonths: 1)
         return Period(

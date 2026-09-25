@@ -27,6 +27,9 @@
         }
       }
     },
+    "1 seçiliyse dönemler takvim ayıdır. Maaşının yattığı günü seçersen dönemlerin o günden başlar; örneğin 15 seçersen Eylül dönemi 15 Eylül'den 14 Ekim'e kadar sürer. Kayıtların değişmez, yalnızca gruplanışı değişir." : {
+
+    },
     "Ara veya yeni marka yaz" : {
 
     },
@@ -34,6 +37,12 @@
 
     },
     "artı " : {
+
+    },
+    "Ayarlar" : {
+
+    },
+    "Ayın %lld. günü" : {
 
     },
     "Ayrıntılar" : {
@@ -52,6 +61,12 @@
 
     },
     "Diğer" : {
+
+    },
+    "Dönem" : {
+
+    },
+    "Dönem başlangıç günü" : {
 
     },
     "Dün" : {
@@ -176,6 +191,9 @@
 
     },
     "Sonraki dönem" : {
+
+    },
+    "Şu anki dönem" : {
 
     },
     "Tamam" : {

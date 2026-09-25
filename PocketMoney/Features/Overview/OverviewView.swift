@@ -3,8 +3,8 @@ import SwiftUI
 
 /// Özet (Bölüm 6.2-A): dönem seçici + dönemin özeti.
 struct OverviewView: View {
-    /// Dönem başlangıç günü (Bölüm 12: ayarlar UserDefaults'ta). Ayarlar ekranı v0.1'in 6. maddesi.
-    @AppStorage("periodStartDay") private var periodStartDay = 1
+    /// Dönem başlangıç günü; Ayarlar'dan değişir (Bölüm 6.2-F).
+    @AppStorage(AppSettings.periodStartDayKey) private var periodStartDay = AppSettings.defaultPeriodStartDay
     /// Seçili dönemin içinde kalan herhangi bir an.
     @State private var anchorDate = Date.now
 
@@ -36,6 +36,16 @@ struct OverviewView: View {
             }
             .background(Color.background)
             .navigationTitle("Özet")
+            .toolbar {
+                // Bölüm 6.1: Ayarlar, Özet'in sağ üstündeki dişli ikonundan açılır.
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Label("Ayarlar", systemImage: "gearshape")
+                    }
+                }
+            }
         }
     }
 
@@ -46,10 +56,19 @@ struct OverviewView: View {
                 anchorDate = calculator.previous(period).start
             }
             Spacer()
-            Text(verbatim: calculator.title(for: period))
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(Color.textPrimary)
-                .contentTransition(.numericText())
+            VStack(spacing: 2) {
+                Text(verbatim: calculator.title(for: period))
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(Color.textPrimary)
+                    .contentTransition(.numericText())
+                // Maaş günü dönemi ay adından anlaşılmaz; aralığı açıkça göster.
+                if periodStartDay != 1 {
+                    Text(verbatim: calculator.rangeTitle(for: period))
+                        .font(.footnote)
+                        .foregroundStyle(Color.textSecondary)
+                }
+            }
+            .accessibilityElement(children: .combine)
             Spacer()
             Button("Sonraki dönem", systemImage: "chevron.right") {
                 anchorDate = calculator.next(period).start
