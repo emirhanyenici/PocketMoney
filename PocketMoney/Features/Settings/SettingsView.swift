@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Ayarlar (Bölüm 6.2-F). Şimdilik yalnızca dönem başlangıç günü; kategori,
-/// marka ve diğer bölümler v0.1'in 6. maddesiyle eklenecek.
+/// Ayarlar (Bölüm 6.2-F): dönem başlangıç günü, kategori ve marka yönetimi.
+/// Bildirimler, Face ID, yedekleme gibi bölümler sonraki sürümlerde (Bölüm 18).
 struct SettingsView: View {
     @AppStorage(AppSettings.periodStartDayKey) private var periodStartDay = AppSettings.defaultPeriodStartDay
 
@@ -26,6 +26,20 @@ struct SettingsView: View {
                 Text("Dönem")
             } footer: {
                 Text("1 seçiliyse dönemler takvim ayıdır. Maaşının yattığı günü seçersen dönemlerin o günden başlar; örneğin 15 seçersen Eylül dönemi 15 Eylül'den 14 Ekim'e kadar sürer. Kayıtların değişmez, yalnızca gruplanışı değişir.")
+            }
+            .listRowBackground(Color.surface)
+
+            Section {
+                NavigationLink { CategoryListView() } label: {
+                    Label("Kategoriler", systemImage: "square.grid.2x2")
+                }
+                NavigationLink { MerchantListView() } label: {
+                    Label("Markalar", systemImage: "storefront")
+                }
+            } header: {
+                Text("Kayıtlar")
+            } footer: {
+                Text("Kategori ve markalarını ekle, düzenle, sırala ya da gizle.")
             }
             .listRowBackground(Color.surface)
         }

@@ -1,7 +1,36 @@
 {
   "sourceLanguage" : "tr",
   "strings" : {
+    "“%@” ile birleştir" : {
+
+    },
+    "“%@” kategorisinde %lld kayıt var. Hiçbiri silinmez; önce nereye taşınacaklarını seç." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "“%1$@” kategorisinde %2$lld kayıt var. Hiçbiri silinmez; önce nereye taşınacaklarını seç."
+          }
+        }
+      }
+    },
+    "“%@” kategorisinde kayıt yok. Silinince geri alınamaz." : {
+
+    },
     "“%@” olarak ekle" : {
+
+    },
+    "“%@” silinecek ve %lld kaydı “%@” markasına taşınacak." : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "“%1$@” silinecek ve %2$lld kaydı “%3$@” markasına taşınacak."
+          }
+        }
+      }
+    },
+    "“%@” şununla birleşsin" : {
 
     },
     "%@ geçen döneme göre" : {
@@ -27,10 +56,49 @@
         }
       }
     },
+    "%lld alt kategori" : {
+
+    },
+    "%lld kayıtta kullanıldı." : {
+
+    },
     "1 seçiliyse dönemler takvim ayıdır. Maaşının yattığı günü seçersen dönemlerin o günden başlar; örneğin 15 seçersen Eylül dönemi 15 Eylül'den 14 Ekim'e kadar sürer. Kayıtların değişmez, yalnızca gruplanışı değişir." : {
 
     },
+    "Ad" : {
+
+    },
+    "Ad boş kalamaz. Bir ad yaz." : {
+
+    },
+    "Adını değiştirmek için dokun, arşivlemek ya da silmek için sola kaydır." : {
+
+    },
+    "Alt kategori ekle" : {
+
+    },
+    "Alt kategoriler" : {
+
+    },
     "Ara veya yeni marka yaz" : {
+
+    },
+    "Arşivden çıkar" : {
+
+    },
+    "Arşivle" : {
+
+    },
+    "Arşivlemek kayıtlarına dokunmaz; kategori yalnızca yeni kayıtta önerilmez. Silerken kayıtların başka bir kategoriye taşınır." : {
+
+    },
+    "Arşivlenen kategoriler geçmiş kayıtlarda görünür, yeni kayıtta önerilmez." : {
+
+    },
+    "Arşivlenmiş" : {
+
+    },
+    "Arşivlenmiş alt kategoriler" : {
 
     },
     "Artı" : {
@@ -45,10 +113,34 @@
     "Ayın %lld. günü" : {
 
     },
+    "Aynı marka yanlışlıkla iki kez eklendiyse birleştir; bu markanın kayıtları seçtiğin markaya taşınır." : {
+
+    },
     "Ayrıntılar" : {
 
     },
+    "Başka bir markayla birleştir" : {
+
+    },
+    "Bir marka kendisiyle birleştirilemez. Başka bir marka seç." : {
+
+    },
+    "Birleştirilsin mi?" : {
+
+    },
+    "Bu adda bir kategori zaten var. Başka bir ad dene." : {
+
+    },
+    "Bu adda bir marka zaten var. Aynı markaysa birleştirebilirsin." : {
+
+    },
     "Bu ay henüz harcama yok. İlkini eklemek 5 saniye sürer." : {
+
+    },
+    "Bu kategoriye taşınamaz. Başka bir kategori seç." : {
+
+    },
+    "Bu markayı seçtiğinde önerilir. Kayıt sırasında kendi seçtiğin kategori her zaman önceliklidir." : {
 
     },
     "Bugün" : {
@@ -58,6 +150,9 @@
 
     },
     "Çarpı" : {
+
+    },
+    "Deniz" : {
 
     },
     "Diğer" : {
@@ -70,6 +165,12 @@
 
     },
     "Dün" : {
+
+    },
+    "Düzenle" : {
+
+    },
+    "Ekle" : {
 
     },
     "Eksi" : {
@@ -106,10 +207,37 @@
     "Gider" : {
 
     },
+    "Gizle" : {
+
+    },
+    "Gizlediğin markalar önerilerde çıkmaz, geçmiş kayıtlarda görünmeye devam eder." : {
+
+    },
+    "Gizlenmiş" : {
+
+    },
+    "Göster" : {
+
+    },
+    "Gri taş" : {
+
+    },
+    "Gül kurusu" : {
+
+    },
     "Harcama ekle" : {
 
     },
+    "Hardal" : {
+
+    },
+    "Hedef kategori" : {
+
+    },
     "Henüz kayıt yok. İlkini eklemek 5 saniye sürer." : {
+
+    },
+    "İkon" : {
 
     },
     "İlk harcamanı ekle" : {
@@ -124,7 +252,19 @@
     "Kanal" : {
 
     },
+    "Karamel" : {
+
+    },
     "Kategori" : {
+
+    },
+    "Kategori adı" : {
+
+    },
+    "Kategori ekle" : {
+
+    },
+    "Kategori ve markalarını ekle, düzenle, sırala ya da gizle." : {
 
     },
     "Kategoriler" : {
@@ -133,10 +273,19 @@
     "Kategorisiz" : {
 
     },
+    "Kategoriyi düzenle" : {
+
+    },
+    "Kategoriyi sil" : {
+
+    },
     "Kaydedildi" : {
 
     },
     "Kaydedilemedi" : {
+
+    },
+    "Kaydedilemedi. Tekrar dene." : {
 
     },
     "Kaydet" : {
@@ -148,10 +297,22 @@
     "Kayıt sırasında bir sorun oldu. Tekrar dene." : {
 
     },
+    "Kayıtlar" : {
+
+    },
+    "Kayıtları şuraya taşı" : {
+
+    },
+    "Kayıtların nereye taşınacağını seç, sonra tekrar dene." : {
+
+    },
     "Kopyala" : {
 
     },
     "Kopyalanamadı. Tekrar dene." : {
+
+    },
+    "Lavanta" : {
 
     },
     "Mağazada" : {
@@ -160,7 +321,25 @@
     "Marka / Mağaza" : {
 
     },
+    "Marka adı" : {
+
+    },
+    "Marka ara" : {
+
+    },
+    "Marka ekle" : {
+
+    },
+    "Markalar" : {
+
+    },
     "Markayı kaldır" : {
+
+    },
+    "Mercan" : {
+
+    },
+    "Nane" : {
 
     },
     "Not" : {
@@ -169,13 +348,31 @@
     "Ödeme yöntemi" : {
 
     },
+    "Olmadı" : {
+
+    },
     "Önceki dönem" : {
+
+    },
+    "Önerilen kategori" : {
+
+    },
+    "Önerilerde gizle" : {
 
     },
     "Online" : {
 
     },
+    "Orman" : {
+
+    },
     "Özet" : {
+
+    },
+    "Petrol" : {
+
+    },
+    "Renk" : {
 
     },
     "Sil" : {
@@ -185,6 +382,12 @@
 
     },
     "Silinemedi. Tekrar dene." : {
+
+    },
+    "Sıralama kaydedilemedi" : {
+
+    },
+    "Sırayı değiştirmek için Düzenle'ye dokun. Kayıt ekranında sık kullandıkların yine önde gelir." : {
 
     },
     "Son işlemler" : {
@@ -211,6 +414,9 @@
     "Toplam harcama" : {
 
     },
+    "Toprak" : {
+
+    },
     "Tümünü gör" : {
 
     },
@@ -229,7 +435,19 @@
     "Virgül" : {
 
     },
+    "Yeni kategori" : {
+
+    },
     "Yeni kayıt" : {
+
+    },
+    "Yeniden adlandır" : {
+
+    },
+    "Yok" : {
+
+    },
+    "Zeytin" : {
 
     }
   },

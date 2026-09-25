@@ -67,6 +67,24 @@ enum CategoryColor: String, CaseIterable {
     /// Gri Taş — Diğer
     case stone = "cat.stone"
 
+    /// Renk seçicide VoiceOver ve etiket için ad (Bölüm 4.4).
+    var title: String {
+        switch self {
+        case .forest: String(localized: "Orman")
+        case .petrol: String(localized: "Petrol")
+        case .olive: String(localized: "Zeytin")
+        case .caramel: String(localized: "Karamel")
+        case .rose: String(localized: "Gül kurusu")
+        case .lavender: String(localized: "Lavanta")
+        case .sea: String(localized: "Deniz")
+        case .mustard: String(localized: "Hardal")
+        case .coral: String(localized: "Mercan")
+        case .mint: String(localized: "Nane")
+        case .earth: String(localized: "Toprak")
+        case .stone: String(localized: "Gri taş")
+        }
+    }
+
     var color: Color {
         switch self {
         case .forest: .catForest
