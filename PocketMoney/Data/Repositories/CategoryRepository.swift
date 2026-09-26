@@ -54,7 +54,7 @@ struct CategoryRepository {
         let order = (try mainCategories(kind: kind).map(\.sortOrder).max() ?? -1) + 1
         let category = Category(name: trimmed, symbolName: symbolName, colorToken: colorToken, kind: kind, sortOrder: order)
         context.insert(category)
-        try context.save()
+        try context.saveOrRollback()
         return category
     }
 
@@ -72,7 +72,7 @@ struct CategoryRepository {
             parent: parent
         )
         context.insert(child)
-        try context.save()
+        try context.saveOrRollback()
         return child
     }
 
@@ -85,18 +85,18 @@ struct CategoryRepository {
             child.symbolName = symbolName
             child.colorToken = colorToken
         }
-        try context.save()
+        try context.saveOrRollback()
     }
 
     func rename(_ category: Category, to name: String) throws {
         category.name = try validatedName(name, kind: category.kind, parent: category.parent, excluding: category)
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Arşivlenen kategori geçmiş işlemlerde görünmeye devam eder, yeni girişte önerilmez.
     func setArchived(_ category: Category, _ archived: Bool) throws {
         category.isArchived = archived
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Verilen sıraya göre `sortOrder` yazar.
@@ -104,7 +104,7 @@ struct CategoryRepository {
         for (index, category) in categories.enumerated() {
             category.sortOrder = index
         }
-        try context.save()
+        try context.saveOrRollback()
     }
 
     // MARK: - Silme
@@ -144,7 +144,7 @@ struct CategoryRepository {
         }
 
         context.delete(category)
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Ana/alt kategori çiftini silinen kategoriden hedefe çevirir. Yalnızca alt

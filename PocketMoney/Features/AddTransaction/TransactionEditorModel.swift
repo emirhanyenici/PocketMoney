@@ -113,17 +113,24 @@ final class TransactionEditorModel {
     /// Bölüm 6.2-B akıllı varsayılanlar: markanın son kullanılan seçimleri
     /// önceliklidir, yoksa seed önerisi. Kullanıcının seçtikleri ezilmez.
     private func applySuggestions(from merchant: Merchant) {
-        if kind == .expense, !categoryChosenByUser {
-            if let lastUsed = merchant.lastUsedCategory {
+        if !categoryChosenByUser {
+            // Öneri yalnızca bu kaydın türüne uyan, arşivlenmemiş bir kategoriyse
+            // kullanılır. Eski sürümler gelir kaydında da `lastUsedCategory` yazıyordu;
+            // bu kontrol o bozuk değeri yok sayar, sonraki gider kaydı onu düzeltir.
+            if let lastUsed = merchant.lastUsedCategory, isSuggestable(lastUsed) {
                 category = lastUsed
-                subcategory = merchant.lastUsedSubcategory
-            } else if let suggested = merchant.suggestedCategory {
+                subcategory = merchant.lastUsedSubcategory.flatMap { isSuggestable($0) ? $0 : nil }
+            } else if let suggested = merchant.suggestedCategory, isSuggestable(suggested) {
                 category = suggested.parent ?? suggested
                 subcategory = suggested.parent == nil ? nil : suggested
             }
         }
         if channel == nil { channel = merchant.lastUsedChannel }
         if paymentMethod == nil { paymentMethod = merchant.lastUsedPaymentMethod }
+    }
+
+    private func isSuggestable(_ candidate: Category) -> Bool {
+        candidate.kind == kind && !candidate.isArchived && !(candidate.parent?.isArchived ?? false)
     }
 
     // MARK: - Öneri listeleri
@@ -238,13 +245,16 @@ final class TransactionEditorModel {
         }
 
         if let resolvedMerchant {
-            // Bir sonraki öneri kullanıcının bu seçimi olur (Bölüm 6.2-B).
-            resolvedMerchant.lastUsedCategory = category
-            resolvedMerchant.lastUsedSubcategory = subcategory
+            // Bir sonraki öneri kullanıcının bu seçimi olur (Bölüm 6.2-B). Marka
+            // kategori hafızası gider içindir; gelir (iade vb.) onu ezmemeli.
+            if kind == .expense {
+                resolvedMerchant.lastUsedCategory = category
+                resolvedMerchant.lastUsedSubcategory = subcategory
+            }
             if let channel { resolvedMerchant.lastUsedChannel = channel }
             if let paymentMethod { resolvedMerchant.lastUsedPaymentMethod = paymentMethod }
         }
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Bekleyen yeni marka adı için aynı arama anahtarlı marka varsa onu kullanır;
@@ -254,7 +264,8 @@ final class TransactionEditorModel {
         let key = SearchKey.make(from: name)
         let existing = try context.fetch(FetchDescriptor<Merchant>(predicate: #Predicate { $0.searchKey == key }))
         if let match = existing.first { return match }
-        let created = Merchant(name: name, suggestedCategory: subcategory ?? category)
+        // Önerilen kategori yalnızca giderden öğrenilir; gelir kategorisi markaya bağlanmaz.
+        let created = Merchant(name: name, suggestedCategory: kind == .expense ? (subcategory ?? category) : nil)
         context.insert(created)
         return created
     }

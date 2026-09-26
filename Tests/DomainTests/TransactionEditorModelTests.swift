@@ -113,6 +113,61 @@ struct TransactionEditorModelTests {
         #expect(try context.fetchCount(FetchDescriptor<Transaction>()) == 2)
     }
 
+    /// Regresyon (QA bulgusu): gelir kaydı markanın kategori hafızasını ezmemeli;
+    /// aksi hâlde sonraki gider gelir kategorisiyle kaydediliyordu.
+    @Test func incomeDoesNotOverwriteMerchantCategoryMemory() throws {
+        let trendyol = try merchant("Trendyol")
+        let income = TransactionEditorModel(initialKind: .income)
+        income.expression.input(.digit(5))
+        income.selectCategory(try category("İade & Geri ödeme"))
+        income.selectMerchant(trendyol)
+        try income.save(in: context)
+
+        #expect(trendyol.lastUsedCategory == nil)
+
+        let expense = TransactionEditorModel()
+        expense.selectMerchant(trendyol)
+        #expect(expense.category?.kind != .income)
+    }
+
+    /// Eski sürümlerde oluşmuş bozuk hafıza (giderde gelir kategorisi) yok sayılır,
+    /// seed önerisine düşülür; sonraki gider kaydı hafızayı düzeltir.
+    @Test func ignoresMismatchedKindInExistingMemory() throws {
+        let shell = try merchant("Shell")
+        shell.lastUsedCategory = try category("Maaş")
+        shell.lastUsedSubcategory = nil
+
+        let expense = TransactionEditorModel()
+        expense.selectMerchant(shell)
+        #expect(expense.category?.name == "Ulaşım")
+        #expect(expense.subcategory?.name == "Yakıt")
+
+        expense.expression.input(.digit(9))
+        try expense.save(in: context)
+        #expect(shell.lastUsedCategory?.name == "Ulaşım")
+    }
+
+    @Test func archivedCategoryIsNotSuggestedFromMerchant() throws {
+        let starbucks = try merchant("Starbucks")
+        try CategoryRepository(context: context).setArchived(try category("Yeme & İçme"), true)
+
+        let model = TransactionEditorModel()
+        model.selectMerchant(starbucks)
+        #expect(model.category == nil)
+    }
+
+    @Test func newMerchantFromIncomeGetsNoSuggestedCategory() throws {
+        let model = TransactionEditorModel(initialKind: .income)
+        model.expression.input(.digit(3))
+        model.selectCategory(try category("Ek gelir"))
+        model.merchantQuery = "Yan İş Ltd"
+        model.addQueryAsNewMerchant()
+        try model.save(in: context)
+
+        let created = try #require(try context.fetch(FetchDescriptor<Merchant>()).first { $0.name == "Yan İş Ltd" })
+        #expect(created.suggestedCategory == nil)
+    }
+
     /// Özet'teki "Gelir ekle" editörü doğrudan gelir modunda açar.
     @Test func opensInRequestedKind() throws {
         let model = TransactionEditorModel(initialKind: .income)

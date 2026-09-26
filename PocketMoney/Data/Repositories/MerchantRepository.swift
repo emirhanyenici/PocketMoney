@@ -23,24 +23,24 @@ struct MerchantRepository {
         let trimmed = try validatedName(name)
         let merchant = Merchant(name: trimmed, suggestedCategory: suggestedCategory)
         context.insert(merchant)
-        try context.save()
+        try context.saveOrRollback()
         return merchant
     }
 
     func rename(_ merchant: Merchant, to name: String) throws {
         merchant.rename(to: try validatedName(name, excluding: merchant))
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Gizlenen marka öneri ve aramada çıkmaz; geçmiş işlemlerde görünmeye devam eder.
     func setHidden(_ merchant: Merchant, _ hidden: Bool) throws {
         merchant.isHidden = hidden
-        try context.save()
+        try context.saveOrRollback()
     }
 
     func setSuggestedCategory(_ merchant: Merchant, _ category: Category?) throws {
         merchant.suggestedCategory = category
-        try context.save()
+        try context.saveOrRollback()
     }
 
     func transactionCount(for merchant: Merchant) throws -> Int {
@@ -74,7 +74,7 @@ struct MerchantRepository {
         if target.lastUsedPaymentMethod == nil { target.lastUsedPaymentMethod = source.lastUsedPaymentMethod }
 
         context.delete(source)
-        try context.save()
+        try context.saveOrRollback()
     }
 
     private func validatedName(_ name: String, excluding: Merchant? = nil) throws -> String {

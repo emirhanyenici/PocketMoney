@@ -21,8 +21,10 @@ struct ToastView: View {
                 .foregroundStyle(Color.textPrimary)
             if let title = toast.actionTitle, let action = toast.action {
                 Button {
-                    action()
+                    // Önce kapat, sonra eylemi çalıştır: eylem yeni bir toast
+                    // gösterirse ("Geri alınamadı") o hemen silinmesin.
                     onDismiss()
+                    action()
                 } label: {
                     Text(verbatim: title)
                         .font(.subheadline.weight(.semibold))

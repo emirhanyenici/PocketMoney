@@ -46,7 +46,7 @@ struct TransactionRepository {
             recurringPeriodKey: transaction.recurringPeriodKey
         )
         context.delete(transaction)
-        try context.save()
+        try context.saveOrRollback()
         return snapshot
     }
 
@@ -71,7 +71,7 @@ struct TransactionRepository {
         transaction.recurringPayment = snapshot.recurringPayment
         transaction.recurringPeriodKey = snapshot.recurringPeriodKey
         context.insert(transaction)
-        try context.save()
+        try context.saveOrRollback()
     }
 
     /// Aynı harcamayı şimdiki zamanla tekrar ekler (sağa kaydır: Kopyala).
@@ -90,7 +90,7 @@ struct TransactionRepository {
             paymentMethod: transaction.paymentMethod
         )
         context.insert(copy)
-        try context.save()
+        try context.saveOrRollback()
         return copy
     }
 }

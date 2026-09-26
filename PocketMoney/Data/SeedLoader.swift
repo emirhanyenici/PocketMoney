@@ -23,7 +23,7 @@ struct SeedLoader {
         let categories = try seedCategories()
         try seedMerchants(categories: categories)
         try seedPaymentMethods()
-        try context.save()
+        try context.saveOrRollback()
     }
 
     // MARK: - Kategoriler
