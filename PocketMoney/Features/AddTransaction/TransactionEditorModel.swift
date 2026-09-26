@@ -26,9 +26,10 @@ final class TransactionEditorModel {
     /// Kullanıcı kategoriyi kendisi seçtiyse marka önerisi onu ezmez (Bölüm 6.2-B).
     private var categoryChosenByUser = false
 
-    init(transaction: Transaction? = nil) {
+    /// - Parameter initialKind: Yeni kayıtta başlangıç türü; Özet'teki "Gelir ekle" `.income` ile açar.
+    init(transaction: Transaction? = nil, initialKind: TransactionKind = .expense) {
         editingTransaction = transaction
-        kind = transaction?.kind ?? .expense
+        kind = transaction?.kind ?? initialKind
         expression = transaction.map { AmountExpression(amount: $0.amount) } ?? AmountExpression()
         category = transaction?.category
         subcategory = transaction?.subcategory
@@ -67,6 +68,12 @@ final class TransactionEditorModel {
         if category != selected { subcategory = nil }
         category = selected
         categoryChosenByUser = true
+    }
+
+    /// Tam listeden (Tümü ekranı) ana + isteğe bağlı alt kategori birlikte seçilir.
+    func select(category selected: Category, subcategory: Category?) {
+        selectCategory(selected)
+        self.subcategory = subcategory
     }
 
     /// Aynı alt kategoriye tekrar dokununca seçim kalkar.
@@ -133,6 +140,21 @@ final class TransactionEditorModel {
                 let (l, r) = (usage[lhs.id] ?? 0, usage[rhs.id] ?? 0)
                 return l != r ? l > r : lhs.sortOrder < rhs.sortOrder
             }
+    }
+
+    /// Izgarada gösterilecek kategoriler: sıralı listenin ilk `limit` tanesi.
+    /// Seçili kategori bunların arasında değilse (Tümü'nden seçildiyse) sona
+    /// eklenir ki ne seçildiği her zaman görünsün.
+    func featuredCategories(from ordered: [Category], limit: Int = 7) -> [Category] {
+        var featured = Array(ordered.prefix(limit))
+        if let category, !featured.contains(category) {
+            if featured.count < limit {
+                featured.append(category)
+            } else {
+                featured[featured.count - 1] = category
+            }
+        }
+        return featured
     }
 
     var subcategories: [Category] {

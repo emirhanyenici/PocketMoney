@@ -20,14 +20,14 @@ struct RootTabView: View {
         TabView(selection: $selection) {
             Tab("Özet", systemImage: "chart.pie.fill", value: AppTab.overview) {
                 OverviewView(
-                    onAdd: { editor = .new },
+                    onAdd: { editor = .new($0) },
                     onEdit: { editor = .edit($0) },
                     onShowAll: { selection = .transactions }
                 )
             }
             Tab("İşlemler", systemImage: "list.bullet", value: AppTab.transactions) {
                 TransactionsView(
-                    onAdd: { editor = .new },
+                    onAdd: { editor = .new(.expense) },
                     onEdit: { editor = .edit($0) },
                     onDelete: delete,
                     onCopy: duplicate
@@ -42,11 +42,11 @@ struct RootTabView: View {
             // "+" bir sekme değil, eylemdir: sheet'i aç ve önceki sekmede kal.
             if current == .add {
                 selection = previous
-                editor = .new
+                editor = .new(.expense)
             }
         }
         .sheet(item: $editor) { presentation in
-            TransactionEditorView(transaction: presentation.transaction) {
+            TransactionEditorView(transaction: presentation.transaction, initialKind: presentation.initialKind) {
                 savedCount += 1
                 show(Toast(message: String(localized: "Kaydedildi")))
             }

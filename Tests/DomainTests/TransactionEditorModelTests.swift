@@ -113,6 +113,29 @@ struct TransactionEditorModelTests {
         #expect(try context.fetchCount(FetchDescriptor<Transaction>()) == 2)
     }
 
+    /// Özet'teki "Gelir ekle" editörü doğrudan gelir modunda açar.
+    @Test func opensInRequestedKind() throws {
+        let model = TransactionEditorModel(initialKind: .income)
+        #expect(model.kind == .income)
+        let offered = model.orderedCategories(from: try context.fetch(FetchDescriptor<PocketMoney.Category>()), recent: [])
+        #expect(offered.first?.name == "Maaş")
+    }
+
+    /// Izgarada ilk 7; Tümü'nden seçilen kategori ızgarada görünür kalır.
+    @Test func featuredCategoriesKeepSelectionVisible() throws {
+        let model = TransactionEditorModel()
+        let ordered = model.orderedCategories(from: try context.fetch(FetchDescriptor<PocketMoney.Category>()), recent: [])
+        #expect(model.featuredCategories(from: ordered).count == 7)
+
+        let pets = try category("Evcil Hayvan")
+        model.select(category: pets, subcategory: try category("Evcil Hayvan", "Veteriner"))
+        let featured = model.featuredCategories(from: ordered)
+
+        #expect(featured.count == 7)
+        #expect(featured.last == pets)
+        #expect(model.subcategory?.name == "Veteriner")
+    }
+
     @Test func switchingKindClearsCategory() throws {
         let model = TransactionEditorModel()
         model.selectCategory(try category("Konut"))

@@ -1,7 +1,8 @@
 import CoreGraphics
 
 /// Boşluk ölçeği (Bölüm 5.2): 4, 8, 12, 16, 20, 24, 32.
-enum Spacing {
+/// Saf sabitler; `Layout` gibi main actor dışı bağlamlarda da kullanılabilsin.
+nonisolated enum Spacing {
     static let xxs: CGFloat = 4
     static let xs: CGFloat = 8
     static let s: CGFloat = 12
@@ -17,7 +18,7 @@ enum Spacing {
 }
 
 /// Köşe yarıçapları (Bölüm 5.2). Tümü `.continuous` stil ile kullanılır.
-enum Radius {
+nonisolated enum Radius {
     static let card: CGFloat = 20
     static let button: CGFloat = 14
 }

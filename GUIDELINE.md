@@ -225,7 +225,7 @@ Ayarlar: Özet ekranı sağ üstteki dişli ikonu
 Hedef: 3 dokunuşta kayıt.
 0. En üstte `Gider | Gelir` segmenti (varsayılan Gider).
 1. Açılışta **tutar** alanı odakta, büyük tuş takımı açık. Tutar sıfırdan büyük olmalı.
-2. Altında **son kullanılan / sık kullanılan kategori çipleri** (ilk 6). Dokununca alt kategori çipleri kayarak gelir.
+2. Altında **sık kullanılan kategoriler ızgarası** (ilk 7, ikon + ad) ve sonunda **"Tümü"** kutusu; "Tümü" tüm kategori ve alt kategorileri aranabilir bir listede açar. Ana kategori seçilince alt kategori çipleri altında, satır satır sarılarak görünür (yatay kaydırma yok; bkz. Bölüm 22).
 3. Opsiyonel alanlar katlanabilir panelde:
    - Marka / Mağaza (kategoriye göre filtrelenmiş öneriler + arama)
    - Kanal: `Mağazada` / `Online`
@@ -832,6 +832,8 @@ Bu rehber, başka iki rehber taslağıyla karşılaştırılarak güncellendi. F
 | Yedek / dışa aktarma | v0.2'ye çekildi | Veri sadece cihazda; kayıp riski erken çözülmeli. |
 | Dil sürümü | Swift 6 | Yeni projede strict concurrency baştan açılırsa ileride taşıma maliyeti olmaz. |
 | Alt gezinme | Özet · İşlemler · (+) · Planla · Analiz | Bütçeler ve düzenli ödemeler "ileriye dönük" tek sekmede; Ayarlar dişli ikonunda. |
+| Hızlı Ekle'de kategori seçimi | Yatay kaydırmalı çip yerine **ızgara + "Tümü" listesi**; alt kategoriler sarılan çipler | Kullanıcı geri bildirimi (26 Eylül 2026): yana kaydırılan çiplerde kategoriler görünmüyordu. Izgarada sık kullanılanlar tek bakışta görünür, geri kalanı "Tümü"nden aranır; 3 dokunuş hedefi korunur. |
+| Gelir girişinin bulunabilirliği | Özet kartında, dönemde gelir yoksa **"Gelir ekle"** kısayolu | Gelir yalnızca "+" sheet'indeki segmentte kaldığında fark edilmiyordu; net durum (Bölüm 6.2-A) gelir olmadan hesaplanamaz. |
 | Renk paleti | Bölüm 4'teki tokenlar geçerli | Diğer taslaklardaki öneriler (`#2E5A44`, `#245B45`, `#F9F9F6` vb.) aynı aileden; tek kaynak olsun diye Bölüm 4 esas alınır. |
 
 ---

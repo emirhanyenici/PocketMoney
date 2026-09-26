@@ -6,14 +6,14 @@ struct OverviewContent: View {
     @Query private var transactions: [Transaction]
     @Query private var previousTransactions: [Transaction]
 
-    let onAdd: () -> Void
+    let onAdd: (TransactionKind) -> Void
     let onEdit: (Transaction) -> Void
     let onShowAll: () -> Void
 
     init(
         period: Period,
         previousPeriod: Period,
-        onAdd: @escaping () -> Void,
+        onAdd: @escaping (TransactionKind) -> Void,
         onEdit: @escaping (Transaction) -> Void,
         onShowAll: @escaping () -> Void
     ) {
@@ -41,7 +41,7 @@ struct OverviewContent: View {
                 symbolName: "chart.pie",
                 message: "Bu ay henüz harcama yok. İlkini eklemek 5 saniye sürer.",
                 actionTitle: "İlk harcamanı ekle",
-                action: onAdd
+                action: { onAdd(.expense) }
             )
             .padding(.top, Spacing.xxl)
         } else {
@@ -58,6 +58,11 @@ struct OverviewContent: View {
                 if earned > 0 {
                     NetBalanceRow(income: earned, expense: spent, net: Aggregations.net(entries))
                         .padding(.top, Spacing.xs)
+                } else {
+                    // Gelir girişi "+" sheet'inde bir segmentin arkasında kalıp fark
+                    // edilmiyordu; net durum ancak gelirle hesaplanır (Bölüm 6.2-A).
+                    AddIncomePrompt { onAdd(.income) }
+                        .padding(.top, Spacing.xs)
                 }
             }
 
@@ -70,6 +75,31 @@ struct OverviewContent: View {
                 onEdit: onEdit,
                 onShowAll: onShowAll
             )
+        }
+    }
+}
+
+/// Dönemde gelir yoksa: kısa açıklama + gelir modunda açılan ekleme butonu.
+private struct AddIncomePrompt: View {
+    let action: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
+            Divider().overlay(Color.divider)
+            HStack(spacing: Spacing.s) {
+                Text("Gelirini de girersen ne kadar kaldığını görürsün.")
+                    .font(.footnote)
+                    .foregroundStyle(Color.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button(action: action) {
+                    Label("Gelir ekle", systemImage: "plus")
+                        .font(.subheadline.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+                .tint(.income)
+                .frame(minHeight: 44)
+            }
         }
     }
 }

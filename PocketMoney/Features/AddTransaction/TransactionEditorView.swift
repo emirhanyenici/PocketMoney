@@ -29,8 +29,8 @@ struct TransactionEditorView: View {
         return descriptor
     }
 
-    init(transaction: Transaction? = nil, onSaved: @escaping () -> Void) {
-        let model = TransactionEditorModel(transaction: transaction)
+    init(transaction: Transaction? = nil, initialKind: TransactionKind = .expense, onSaved: @escaping () -> Void) {
+        let model = TransactionEditorModel(transaction: transaction, initialKind: initialKind)
         _model = State(initialValue: model)
         _showsDetails = State(initialValue: model.hasDetails)
         self.onSaved = onSaved

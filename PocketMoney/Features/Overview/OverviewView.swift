@@ -8,7 +8,8 @@ struct OverviewView: View {
     /// Seçili dönemin içinde kalan herhangi bir an.
     @State private var anchorDate = Date.now
 
-    let onAdd: () -> Void
+    /// Yeni kayıt; tür, Özet'teki "Gelir ekle" için `.income`.
+    let onAdd: (TransactionKind) -> Void
     let onEdit: (Transaction) -> Void
     let onShowAll: () -> Void
 
@@ -85,18 +86,18 @@ struct OverviewView: View {
 
 #if DEBUG
 #Preview("Açık mod") {
-    OverviewView(onAdd: {}, onEdit: { _ in }, onShowAll: {})
+    OverviewView(onAdd: { _ in }, onEdit: { _ in }, onShowAll: {})
         .modelContainer(AppModelContainer.preview())
 }
 
 #Preview("Koyu mod") {
-    OverviewView(onAdd: {}, onEdit: { _ in }, onShowAll: {})
+    OverviewView(onAdd: { _ in }, onEdit: { _ in }, onShowAll: {})
         .modelContainer(AppModelContainer.preview())
         .preferredColorScheme(.dark)
 }
 
 #Preview("Boş") {
-    OverviewView(onAdd: {}, onEdit: { _ in }, onShowAll: {})
+    OverviewView(onAdd: { _ in }, onEdit: { _ in }, onShowAll: {})
         .modelContainer(AppModelContainer.preview(withTransactions: false))
 }
 #endif

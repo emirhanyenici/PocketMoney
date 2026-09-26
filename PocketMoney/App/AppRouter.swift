@@ -9,19 +9,27 @@ enum AppTab: Hashable {
     case add
 }
 
-/// Ekleme/düzenleme sheet'inin hangi kayıtla açıldığı.
+/// Ekleme/düzenleme sheet'inin nasıl açıldığı.
 enum EditorPresentation: Identifiable {
-    case new
+    /// Yeni kayıt; tür "+" için gider, Özet'teki "Gelir ekle" için gelir.
+    case new(TransactionKind)
     case edit(Transaction)
 
     var id: String {
         switch self {
-        case .new: "new"
+        case .new(let kind): "new-\(kind.rawValue)"
         case .edit(let transaction): transaction.id.uuidString
         }
     }
 
     var transaction: Transaction? {
         if case .edit(let transaction) = self { transaction } else { nil }
+    }
+
+    var initialKind: TransactionKind {
+        switch self {
+        case .new(let kind): kind
+        case .edit(let transaction): transaction.kind
+        }
     }
 }
