@@ -5,8 +5,8 @@ import SwiftData
 struct TransactionRepository {
     let context: ModelContext
 
-    /// Silinen işlemi geri almak için gereken her şey. İlişkili kategori, marka
-    /// ve ödeme yöntemi silinmediği için referans olarak tutulabilir.
+    /// Silinen işlemi geri almak için gereken her şey. İlişkiler referans olarak
+    /// tutulur; geri alınana kadar silinmiş olanlar `restore` sırasında düşürülür.
     struct Snapshot {
         fileprivate let id: UUID
         fileprivate let amount: Decimal
@@ -60,18 +60,25 @@ struct TransactionRepository {
             note: snapshot.note,
             tags: snapshot.tags,
             channel: snapshot.channel,
-            category: snapshot.category,
-            subcategory: snapshot.subcategory,
-            merchant: snapshot.merchant,
-            paymentMethod: snapshot.paymentMethod
+            category: live(snapshot.category),
+            subcategory: live(snapshot.subcategory),
+            merchant: live(snapshot.merchant),
+            paymentMethod: live(snapshot.paymentMethod)
         )
         transaction.id = snapshot.id
         transaction.localDay = snapshot.localDay
         transaction.createdAt = snapshot.createdAt
-        transaction.recurringPayment = snapshot.recurringPayment
+        transaction.recurringPayment = live(snapshot.recurringPayment)
         transaction.recurringPeriodKey = snapshot.recurringPeriodKey
         context.insert(transaction)
         try context.saveOrRollback()
+    }
+
+    /// Geri alma penceresinde silinen (ör. kategori silme, marka birleştirme)
+    /// modele bağlanmak kaydı bozar; o ilişki boş bırakılır.
+    private func live<Model: PersistentModel>(_ model: Model?) -> Model? {
+        guard let model, !model.isDeleted, model.modelContext != nil else { return nil }
+        return model
     }
 
     /// Aynı harcamayı şimdiki zamanla tekrar ekler (sağa kaydır: Kopyala).
