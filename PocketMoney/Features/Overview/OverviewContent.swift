@@ -6,19 +6,25 @@ struct OverviewContent: View {
     @Query private var transactions: [Transaction]
     @Query private var previousTransactions: [Transaction]
 
+    let isCurrentPeriod: Bool
     let onAdd: (TransactionKind) -> Void
     let onEdit: (Transaction) -> Void
     let onShowAll: () -> Void
+    let onReturnToCurrent: () -> Void
 
     init(
         period: Period,
         previousPeriod: Period,
+        isCurrentPeriod: Bool,
         onAdd: @escaping (TransactionKind) -> Void,
         onEdit: @escaping (Transaction) -> Void,
-        onShowAll: @escaping () -> Void
+        onShowAll: @escaping () -> Void,
+        onReturnToCurrent: @escaping () -> Void
     ) {
         _transactions = Query(Self.descriptor(for: period))
         _previousTransactions = Query(Self.descriptor(for: previousPeriod))
+        self.isCurrentPeriod = isCurrentPeriod
+        self.onReturnToCurrent = onReturnToCurrent
         self.onAdd = onAdd
         self.onEdit = onEdit
         self.onShowAll = onShowAll
@@ -36,7 +42,16 @@ struct OverviewContent: View {
     }
 
     var body: some View {
-        if transactions.isEmpty {
+        if transactions.isEmpty && !isCurrentPeriod {
+            // Geçmiş dönem: yeni kayıt bugüne düşeceği için "ekle" yanıltır.
+            EmptyStateView(
+                symbolName: "calendar",
+                message: "Bu dönemde kayıt yok.",
+                actionTitle: "Bu döneme dön",
+                action: onReturnToCurrent
+            )
+            .padding(.top, Spacing.xxl)
+        } else if transactions.isEmpty {
             EmptyStateView(
                 symbolName: "chart.pie",
                 message: "Bu ay henüz harcama yok. İlkini eklemek 5 saniye sürer.",

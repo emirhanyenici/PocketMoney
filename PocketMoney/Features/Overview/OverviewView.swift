@@ -7,6 +7,10 @@ struct OverviewView: View {
     @AppStorage(AppSettings.periodStartDayKey) private var periodStartDay = AppSettings.defaultPeriodStartDay
     /// Seçili dönemin içinde kalan herhangi bir an.
     @State private var anchorDate = Date.now
+    /// Kullanıcı güncel dönemdeyse ay/maaş günü dönümünde yeni döneme geçilir;
+    /// geçmiş bir döneme bakıyorsa yerinde bırakılır.
+    @State private var followsToday = true
+    @Environment(\.scenePhase) private var scenePhase
 
     /// Yeni kayıt; tür, Özet'teki "Gelir ekle" için `.income`.
     let onAdd: (TransactionKind) -> Void
@@ -25,9 +29,11 @@ struct OverviewView: View {
                     OverviewContent(
                         period: period,
                         previousPeriod: calculator.previous(period),
+                        isCurrentPeriod: isCurrentPeriod,
                         onAdd: onAdd,
                         onEdit: onEdit,
-                        onShowAll: onShowAll
+                        onShowAll: onShowAll,
+                        onReturnToCurrent: returnToToday
                     )
                     // Dönem değişince sorgular yeniden kurulur.
                     .id(period)
@@ -48,6 +54,20 @@ struct OverviewView: View {
                 }
             }
         }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active, followsToday { anchorDate = .now }
+        }
+        .task {
+            // Uygulama açıkken gece yarısı / saat dilimi değişimi.
+            for await _ in NotificationCenter.default.notifications(named: UIApplication.significantTimeChangeNotification) {
+                if followsToday { anchorDate = .now }
+            }
+        }
+    }
+
+    private func returnToToday() {
+        anchorDate = .now
+        followsToday = true
     }
 
     /// `‹ Eylül 2026 ›`. Gelecek dönemlere gidilmez.
@@ -55,6 +75,7 @@ struct OverviewView: View {
         HStack {
             Button("Önceki dönem", systemImage: "chevron.left") {
                 anchorDate = calculator.previous(period).start
+                followsToday = false
             }
             Spacer()
             VStack(spacing: 2) {
@@ -73,6 +94,7 @@ struct OverviewView: View {
             Spacer()
             Button("Sonraki dönem", systemImage: "chevron.right") {
                 anchorDate = calculator.next(period).start
+                followsToday = isCurrentPeriod
             }
             .disabled(isCurrentPeriod)
         }
