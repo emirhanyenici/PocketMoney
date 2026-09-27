@@ -169,6 +169,41 @@ struct TransactionEditorModelTests {
         #expect(!model.subcategories.contains(coffee))
     }
 
+    @Test func makesRecurringCountsThisAsFirstPayment() throws {
+        let calendar = LocalDay.currentCalendar
+        let entryDate = try #require(calendar.date(from: DateComponents(year: 2026, month: 9, day: 5, hour: 14)))
+        let model = TransactionEditorModel()
+        model.expression.input(.digit(9))
+        model.expression.input(.digit(9))
+        model.select(category: try category("Abonelikler"), subcategory: try category("Abonelikler", "Video"))
+        model.merchantQuery = "Netflix"
+        model.addQueryAsNewMerchant()
+        model.date = entryDate
+        model.makesRecurring = true
+        try model.save(in: context)
+
+        let payment = try #require(try context.fetch(FetchDescriptor<RecurringPayment>()).first)
+        #expect(payment.name == "Netflix")
+        #expect(payment.amount == 99)
+        #expect(payment.frequency == .monthly)
+        #expect(payment.dayOfPeriod == 5)
+        #expect(payment.mode == .confirm)
+        #expect(payment.subcategory?.name == "Video")
+        #expect(payment.nextDueDate == calendar.date(from: DateComponents(year: 2026, month: 10, day: 5)))
+
+        let transaction = try #require(try context.fetch(FetchDescriptor<Transaction>()).first)
+        #expect(transaction.recurringPayment == payment)
+        #expect(transaction.recurringPeriodKey == "2026-09-05")
+    }
+
+    @Test func recurringToggleOffCreatesNoPayment() throws {
+        let model = TransactionEditorModel()
+        model.expression.input(.digit(5))
+        model.selectCategory(try category("Konut"))
+        try model.save(in: context)
+        #expect(try context.fetch(FetchDescriptor<RecurringPayment>()).isEmpty)
+    }
+
     @Test func newMerchantFromIncomeGetsNoSuggestedCategory() throws {
         let model = TransactionEditorModel(initialKind: .income)
         model.expression.input(.digit(3))

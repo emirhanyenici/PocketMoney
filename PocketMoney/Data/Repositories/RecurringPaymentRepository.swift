@@ -56,6 +56,32 @@ struct RecurringPaymentRepository {
         return payment
     }
 
+    /// Hızlı Ekle'deki "Bunu düzenli ödeme yap" (Bölüm 6.2-B): az önce girilen
+    /// işlem ilk vadenin ödemesi sayılır, sonraki vade bir periyot sonrasıdır.
+    /// İşlem henüz kaydedilmemiş olabilir; ikisi tek kayıtta yazılır.
+    @discardableResult
+    func create(_ draft: Draft, firstPayment transaction: Transaction) throws -> RecurringPayment {
+        let (name, amount) = try validated(draft)
+        let schedule = RecurrenceSchedule(frequency: draft.frequency, dayOfPeriod: draft.dayOfPeriod, calendar: calendar)
+        let firstDue = schedule.firstDueDate(onOrAfter: draft.startDate)
+        let payment = RecurringPayment(
+            name: name,
+            amount: amount,
+            frequency: draft.frequency,
+            dayOfPeriod: draft.dayOfPeriod,
+            startDate: calendar.startOfDay(for: draft.startDate),
+            nextDueDate: firstDue,
+            mode: draft.mode
+        )
+        apply(draft, to: payment)
+        context.insert(payment)
+        transaction.recurringPayment = payment
+        transaction.recurringPeriodKey = LocalDay.key(for: firstDue, calendar: calendar)
+        advance(payment)
+        try context.saveOrRollback()
+        return payment
+    }
+
     /// Tutar değişince fiyat geçmişine yazılır; geçmiş işlemler etkilenmez (Bölüm 9.3).
     /// Periyot, gün veya başlangıç değişirse sonraki vade yeniden hesaplanır.
     func update(_ payment: RecurringPayment, with draft: Draft, now: Date = .now) throws {

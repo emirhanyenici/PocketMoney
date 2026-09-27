@@ -234,6 +234,9 @@
     "Bugüne kopyalandı" : {
 
     },
+    "Bunu düzenli ödeme yap" : {
+
+    },
     "Çarpı" : {
 
     },
@@ -362,6 +365,9 @@
 
     },
     "Her ay sabit" : {
+
+    },
+    "Her ayın %lld. günü hatırlatılır. Sıklığı ve otomatik kaydı Planla'dan değiştirebilirsin." : {
 
     },
     "Her N günde bir" : {

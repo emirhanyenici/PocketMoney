@@ -46,8 +46,25 @@ struct EditorDetailsSection: View {
                 .lineLimit(1...4)
                 .padding(Spacing.s)
                 .background(Color.surface, in: .rect(cornerRadius: Radius.button, style: .continuous))
+            if !model.isEditing {
+                recurringToggle
+            }
         }
         .fontWeight(.regular)
+    }
+
+    /// Bu kayıt ilk ödeme sayılır; sonraki vade gelecek ay aynı gündür.
+    private var recurringToggle: some View {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
+            Toggle("Bunu düzenli ödeme yap", isOn: $model.makesRecurring)
+                .font(.body)
+                .tint(.brandPrimary)
+            if model.makesRecurring {
+                Text("Her ayın \(Calendar.current.component(.day, from: model.date)). günü hatırlatılır. Sıklığı ve otomatik kaydı Planla'dan değiştirebilirsin.")
+                    .font(.footnote)
+                    .foregroundStyle(Color.textSecondary)
+            }
+        }
     }
 
     private var merchantField: some View {

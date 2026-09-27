@@ -21,6 +21,8 @@ final class TransactionEditorModel {
     var paymentMethod: PaymentMethod?
     var date: Date
     var note: String
+    /// "Bunu düzenli ödeme yap" (Bölüm 6.2-B); yalnızca yeni kayıtta.
+    var makesRecurring = false
 
     let editingTransaction: Transaction?
     /// Kullanıcı kategoriyi kendisi seçtiyse marka önerisi onu ezmez (Bölüm 6.2-B).
@@ -220,6 +222,7 @@ final class TransactionEditorModel {
         let resolvedMerchant = try resolveMerchant(in: context, category: category)
         let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
         let noteValue = trimmedNote.isEmpty ? nil : trimmedNote
+        var newTransaction: Transaction?
 
         if let transaction = editingTransaction {
             transaction.amount = amount
@@ -233,7 +236,7 @@ final class TransactionEditorModel {
             if transaction.date != date { transaction.updateDate(date) }
             transaction.updatedAt = .now
         } else {
-            context.insert(Transaction(
+            let transaction = Transaction(
                 amount: amount,
                 kind: kind,
                 date: date,
@@ -243,7 +246,9 @@ final class TransactionEditorModel {
                 subcategory: subcategory,
                 merchant: resolvedMerchant,
                 paymentMethod: paymentMethod
-            ))
+            )
+            context.insert(transaction)
+            newTransaction = transaction
         }
 
         if let resolvedMerchant {
@@ -256,7 +261,27 @@ final class TransactionEditorModel {
             if let channel { resolvedMerchant.lastUsedChannel = channel }
             if let paymentMethod { resolvedMerchant.lastUsedPaymentMethod = paymentMethod }
         }
-        try context.saveOrRollback()
+
+        if makesRecurring, let newTransaction {
+            // İşlem ve düzenli ödeme tek kayıtta yazılır; biri başarısızsa ikisi de geri alınır.
+            let calendar = LocalDay.currentCalendar
+            try RecurringPaymentRepository(context: context, calendar: calendar).create(
+                RecurringPaymentRepository.Draft(
+                    name: resolvedMerchant?.name ?? subcategory?.name ?? category.name,
+                    amount: amount,
+                    frequency: .monthly,
+                    dayOfPeriod: calendar.component(.day, from: date),
+                    startDate: date,
+                    category: category,
+                    subcategory: subcategory,
+                    merchant: resolvedMerchant,
+                    paymentMethod: paymentMethod
+                ),
+                firstPayment: newTransaction
+            )
+        } else {
+            try context.saveOrRollback()
+        }
     }
 
     /// Bekleyen yeni marka adı için aynı arama anahtarlı marka varsa onu kullanır;
