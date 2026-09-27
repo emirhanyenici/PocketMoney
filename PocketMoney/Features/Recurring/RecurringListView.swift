@@ -59,7 +59,7 @@ struct RecurringListView: View {
                 if payments.isEmpty {
                     EmptyStateView(
                         symbolName: "calendar.badge.clock",
-                        message: "Kira, fatura ve aboneliklerini ekle; vadesi gelince hatırlatayım.",
+                        message: "Kira, fatura ve aboneliklerini ekle; vadesi gelenler burada onayını bekler.",
                         actionTitle: "Düzenli ödeme ekle",
                         action: { showsTemplates = true }
                     )

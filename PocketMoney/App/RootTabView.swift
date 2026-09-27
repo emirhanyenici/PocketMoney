@@ -46,8 +46,8 @@ struct RootTabView: View {
             }
         }
         .tint(.brandPrimary)
-        // Otomatik kayıtlı düzenli ödemelerin gelmiş vadeleri (Bölüm 9.4).
-        // Arka plan yenilemesi v0.2'nin 3. maddesinde eklenir.
+        // Otomatik kayıtlı düzenli ödemelerin gelmiş vadeleri (Bölüm 9.4). Arka plan
+        // yenilemesi ve bildirim yok (Bölüm 22); uygulama öne gelince işlenir.
         .onChange(of: scenePhase, initial: true) { _, phase in
             if phase == .active { postDueAutomaticPayments() }
         }

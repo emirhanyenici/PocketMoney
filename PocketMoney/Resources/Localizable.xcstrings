@@ -367,7 +367,7 @@
     "Her ay sabit" : {
 
     },
-    "Her ayın %lld. günü hatırlatılır. Sıklığı ve otomatik kaydı Planla'dan değiştirebilirsin." : {
+    "Her ayın %lld. günü Planla'da onayını bekler. Sıklığı ve otomatik kaydı oradan değiştirebilirsin." : {
 
     },
     "Her N günde bir" : {
@@ -463,7 +463,7 @@
     "Kendin oluştur" : {
 
     },
-    "Kira, fatura ve aboneliklerini ekle; vadesi gelince hatırlatayım." : {
+    "Kira, fatura ve aboneliklerini ekle; vadesi gelenler burada onayını bekler." : {
 
     },
     "Konut & Faturalar" : {
@@ -643,10 +643,10 @@
     "Ulaşım" : {
 
     },
-    "Vadesi gelince hatırlatılır; \"Ödendi\" deyince işlem eklenir. Tutar o ay farklıysa değiştirebilirsin." : {
+    "Vadesi gelince işlem kendiliğinden eklenir. Karttan kesin çekilen sabit tutarlı ödemeler için uygundur." : {
 
     },
-    "Vadesi gelince işlem kendiliğinden eklenir. Karttan kesin çekilen sabit tutarlı ödemeler için uygundur." : {
+    "Vadesi gelince Planla'da bekler; \"Ödendi\" deyince işlem eklenir. Tutar o ay farklıysa değiştirebilirsin." : {
 
     },
     "Vazgeç" : {

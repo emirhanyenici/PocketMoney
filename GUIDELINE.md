@@ -69,14 +69,14 @@
 
 ### Bizim sentezimiz
 1. **Hızlı giriş her şeyden önce gelir** (Monefy): Tutar → kategori → kaydet. Gerisi opsiyonel.
-2. **Düzenli ödemeler birinci sınıf vatandaştır** (Money Tracker): Kira, fatura, Netflix, iCloud tek yerde; vadesi gelince hatırlatılır, istenirse otomatik kaydedilir.
+2. **Düzenli ödemeler birinci sınıf vatandaştır** (Money Tracker): Kira, fatura, Netflix, iCloud tek yerde; vadesi gelince Planla'da onay bekler, istenirse otomatik kaydedilir.
 3. **Marka seviyesinde detay** (bize özel): "Giyim" değil, "Giyim → Zara (online)" diyebilmek.
 4. **Dönem esnekliği** (PocketPal, Money Tracker): Ay başı yerine maaş gününden başlayan dönem.
 5. **Alt kategoriler keşfedilebilir olmalı** (Money Manager dersi): Ayar menüsüne gömülmez, giriş ekranında görünür.
 6. **Hiçbir temel özellik kilitli değildir.**
 7. **Yargılamayan dil:** Harcamalar kırmızıyla bağırmaz; sadece bütçe aşıldığında yumuşak bir uyarı rengi kullanılır.
 8. **Kategori, marka ve kanal üç ayrı kavramdır:** Zara bir *marka*, Giyim bir *kategori*, Online bir *kanal*dır. Online giyim alışverişi hem "Giyim" hem "Online" filtresinde bulunur. Marka kategoriyi *önerir*, *belirlemez* (Koton'dan kozmetik de alınabilir).
-9. **Uygulama senin yerine ödeme yapmış gibi davranmaz:** Düzenli ödemeler varsayılan olarak hatırlatır, kullanıcı "Ödendi" deyince işlem oluşur.
+9. **Uygulama senin yerine ödeme yapmış gibi davranmaz:** Düzenli ödemeler varsayılan olarak onay bekler, kullanıcı "Ödendi" deyince işlem oluşur.
 
 ---
 
@@ -274,7 +274,6 @@ Akıllı varsayılanlar:
 - Markalar (ekle, düzenle, birleştir, gizle).
 - Ödeme yöntemleri.
 - Bütçeler.
-- Bildirimler (günlük hatırlatma saati, ödeme hatırlatma günü, **bildirimde tutar ve marka gösterilsin mi**).
 - Face ID ile kilit.
 - Görünüm: Sistem / Açık / Koyu.
 - **Veri & Gizlilik:**
@@ -288,7 +287,7 @@ Akıllı varsayılanlar:
 2. Dönem başlangıç günü, (opsiyonel) aylık gelir ve (opsiyonel) aylık toplam bütçe.
 3. Hızlı kurulum: Kira, faturalar ve abonelikleri işaretleyerek düzenli ödemeleri ekle (Netflix, iCloud+, Spotify... hazır liste). Önerilen kategorileri olduğu gibi al veya boş başla.
 
-Onboarding'de hesap açma yok, **bildirim izni istenmez** (izin, kullanıcı ilk kez bir hatırlatma açtığında istenir).
+Onboarding'de hesap açma yok. Uygulama **bildirim göndermez**, bildirim izni hiç istenmez (Bölüm 22).
 
 #### H. Marka Detayı
 İşlem listesinde veya Analiz'de bir markaya dokununca açılır. "Bu yıl Starbucks'a toplam ne kadar ödedim?" sorusunun cevabıdır.
@@ -397,10 +396,9 @@ Bir `RecurringPayment`:
 - Başlangıç tarihi, (opsiyonel) bitiş tarihi veya taksit sayısı
 - Ödeme günü (örn. her ayın 5'i; ayda o gün yoksa ayın son günü)
 - Mod:
-  - **Onayla (varsayılan):** Tarih gelince ödeme "Bekliyor" olur ve (açıksa) "Ödendi mi?" bildirimi gelir. Kullanıcı "Ödendi" deyince işlem oluşur; tutar o ay için değiştirilebilir (ör. elektrik, doğalgaz — her ay farklı tutar). Sonraki vade tarihi ancak o zaman ilerler.
+  - **Onayla (varsayılan):** Tarih gelince ödeme Planla'da "Bekliyor" olur. Kullanıcı "Ödendi" deyince işlem oluşur; tutar o ay için değiştirilebilir (ör. elektrik, doğalgaz — her ay farklı tutar). Sonraki vade tarihi ancak o zaman ilerler.
   - **Otomatik kaydet (isteğe bağlı):** Karttan kesin çekildiğini bildiğin sabit tutarlı ödemeler için (ör. Netflix, iCloud+). Tarihi gelince işlem kendiliğinden oluşur, listede küçük "otomatik" etiketiyle görünür ve tek dokunuşla geri alınabilir.
 - Durumlar: `Yaklaşıyor` · `Bekliyor` · `Ödendi` · `Atlandı` (bu ay ödenmedi/iptal).
-- Hatırlatma: ödeme gününden X gün önce bildirim (isteğe bağlı).
 
 ### 9.2 Hazır abonelik şablonları (onboarding + ekleme ekranı)
 - **İzleme:** Netflix, YouTube Premium, Disney+, Amazon Prime, HBO Max, Exxen, Gain, TOD
@@ -419,8 +417,7 @@ Bir `RecurringPayment`:
 - Fiyat değişimi: Tutar güncellendiğinde geçmiş işlemler etkilenmez; "Fiyat arttı: ₺199,99 → ₺229,99" geçmişi tutulur.
 
 ### 9.4 Teknik not
-- Uygulama her açılışta ve arka plan yenilemesinde (BGAppRefreshTask) **vadesi gelmiş** düzenli ödemeleri kontrol eder, eksik dönemleri oluşturur (idempotent: aynı dönem için iki kez işlem oluşmaz — `recurringId + periodKey` benzersiz anahtar).
-- Bildirimler `UNUserNotificationCenter` ile yerel olarak planlanır; iOS 64 bekleyen bildirim sınırı nedeniyle sadece önümüzdeki ~30 günün bildirimleri planlanır ve her açılışta yenilenir.
+- Uygulama her açılışta ve öne gelişinde **vadesi gelmiş** düzenli ödemeleri kontrol eder, eksik dönemleri oluşturur (idempotent: aynı dönem için iki kez işlem oluşmaz — `recurringId + periodKey` benzersiz anahtar).
 
 ---
 
@@ -429,7 +426,7 @@ Bir `RecurringPayment`:
 - **Toplam aylık bütçe** (opsiyonel) + **kategori bazlı bütçeler**.
 - İleri sürüm: marka bazlı limit (ör. "Yemek siparişi ayda ₺3.000").
 - Durumlar: `%0–79 normal (yeşil)` · `%80–99 warning (bal)` · `%100+ over (kiremit)`.
-- Bildirim: %80 ve %100 eşiklerinde tek seferlik, yargılamayan dil:
+- Uyarı (uygulama içinde, bildirim değil): %80 ve %100 eşiklerinde Planla ve Özet'te, yargılamayan dil:
   - ✅ "Kahve & Kafe bütçenin %80'ine ulaştın. Ayın bitmesine 9 gün var."
   - ❌ "Çok fazla harcadın!"
 - **Günlük harcanabilir tutar:** `(bütçe − harcanan) / kalan gün` — hero kartta küçük satır.
@@ -551,7 +548,7 @@ Grafik kuralları:
 - Bütçe kullanımı yalnızca o kategori (ve alt kategorileri) ile o dönemdeki **giderlerden** hesaplanır; gelirler ve iadeler bütçeyi etkilemez (iade, ileride "gideri azaltan işlem" olarak ele alınabilir).
 - "Bekliyor" durumundaki düzenli ödemeler toplamlara girmez; sadece "Yaklaşan ödemeler" alanında görünür.
 
-Ayarlar (`UserDefaults` / `@AppStorage`): dönem başlangıç günü, görünüm, bildirim saati, Face ID açık/kapalı, onboarding tamamlandı mı.
+Ayarlar (`UserDefaults` / `@AppStorage`): dönem başlangıç günü, görünüm, Face ID açık/kapalı, onboarding tamamlandı mı.
 
 ### Şema değişiklikleri
 - Model değiştiğinde `VersionedSchema` + `SchemaMigrationPlan` kullanılır. TestFlight'taki mevcut veri **asla kaybolmamalı**.
@@ -570,8 +567,6 @@ Ayarlar (`UserDefaults` / `@AppStorage`): dönem başlangıç günü, görünüm
 | Kalıcılık | SwiftData (cihazda) |
 | Durum yönetimi | `@Observable` ViewModel'ler + `@Query` (listeler için) |
 | Grafik | Swift Charts |
-| Bildirim | UserNotifications (yerel) |
-| Arka plan | BackgroundTasks (`BGAppRefreshTask`) — düzenli ödeme kontrolü |
 | Kilit | LocalAuthentication (Face ID / şifre) |
 | Dışa aktarma | `ShareLink` + CSV / JSON (`FileDocument`) |
 | Bağımlılık | **Sıfır üçüncü parti paket** hedefi. Gerekirse sadece Swift Package Manager. |
@@ -653,8 +648,6 @@ CuzdanDefteri/
 │   ├── Settings/
 │   └── Onboarding/
 ├── Services/
-│   ├── NotificationService.swift
-│   ├── BackgroundRefreshService.swift
 │   ├── BiometricLockService.swift
 │   └── ExportService.swift
 ├── Resources/
@@ -698,8 +691,7 @@ CuzdanDefteri/
 - Tüm veri **cihazda**. Ağ isteği yok (ilk sürümlerde uygulamanın internete hiç çıkmaması hedeflenir).
 - Analitik / takip SDK'sı yok. App Tracking Transparency gerekmez.
 - Opsiyonel Face ID kilidi; uygulama arka plana gidince uygulama değiştirici (app switcher) görüntüsü bulanıklaştırılır.
-- **Bildirim izni** sadece kullanıcı ilk kez bir hatırlatma açtığında, nedenini anlatan kısa bir açıklamadan sonra istenir. Reddedilirse uygulama bildirimsiz çalışmaya devam eder.
-- **Bildirim önizlemesi:** Ayarlardan kapatılabilir; kapalıyken bildirimde "Bugün 1 ödemen var" yazar, tutar ve marka görünmez.
+- **Bildirim yok:** Uygulama bildirim göndermez ve izin istemez; bekleyen ödemeler ve bütçe durumu yalnızca uygulama içinde görünür (Bölüm 22).
 - **Veri kaybı uyarısı:** Veri sadece cihazda olduğu için uygulamayı silmek kayıtları siler. Bu bilgi onboarding'de ve Ayarlar → Veri & Gizlilik'te açıkça yazar; son yedekten 30 gün geçince Özet'te nazik bir "Yedek almak ister misin?" kartı çıkar.
 - SwiftData dosyası iOS Data Protection (`completeUntilFirstUserAuthentication`) ile korunur.
 - Yedek dosyası (JSON) kullanıcının kendi seçtiği yere (Dosyalar / iCloud Drive) kaydedilir.
@@ -720,15 +712,13 @@ CuzdanDefteri/
 
 ### v0.2 — "Sabit giderler"
 - [ ] Düzenli ödemeler (otomatik / onaylı), abonelik şablonları
-- [ ] Yerel bildirimler (ödeme hatırlatma, onay bildirimi)
-- [ ] Arka plan yenileme ile vadesi gelen ödemelerin oluşturulması
 - [ ] Özet'te "Yaklaşan ödemeler" ve sabit/değişken ayrımı
 - [ ] Onboarding
 - [ ] **JSON yedek al / geri yükle ve CSV dışa aktarma** (veri sadece cihazda olduğu için erken geliyor)
 - [ ] Tüm veriyi sil
 
 ### v0.3 — "Kontrol"
-- [ ] Toplam ve kategori bütçeleri, %80 / %100 bildirimleri
+- [ ] Toplam ve kategori bütçeleri, %80 / %100 uygulama içi uyarıları
 - [ ] Analiz ekranı: trend, marka, kanal sekmeleri, drill-down
 - [ ] Marka Detay ekranı ("Bu yıl Starbucks'a ne kadar ödedim?")
 - [ ] Arama ve gelişmiş filtre
@@ -736,7 +726,6 @@ CuzdanDefteri/
 
 ### v0.4 — "Güven"
 - [ ] Face ID kilidi, app switcher bulanıklaştırma
-- [ ] Bildirim önizlemesini gizleme ayarı
 - [ ] "Yedek almak ister misin?" hatırlatma kartı
 - [ ] CSV içe aktarma (başka uygulamadan geçiş için)
 
@@ -829,7 +818,7 @@ Bu rehber, başka iki rehber taslağıyla karşılaştırılarak güncellendi. F
 | Market alışverişinin yeri | Ayrı **Market & Gıda** kategorisi (Yeme & İçme altında değil) | Market zorunlu ihtiyaç, restoran/kahve keyfi harcama; ayrı durunca "dışarıda yemeye ne harcıyorum" sorusu net cevaplanır. |
 | Online alışveriş | Kategori değil, **kanal** alanı | Online giyim hem Giyim hem Online filtresinde görünür; aynı veri iki yerde tekrarlanmaz. |
 | Marka → kategori | Öneri, zorunluluk değil | Aynı mağazadan farklı kategoride alışveriş yapılabilir. |
-| Düzenli ödeme varsayılanı | **Onayla** (hatırlat, kullanıcı işaretlesin) | Uygulama ödeme yapılmış gibi sahte kayıt oluşturmamalı; otomatik kayıt isteğe bağlı. |
+| Düzenli ödeme varsayılanı | **Onayla** (Planla'da beklesin, kullanıcı işaretlesin) | Uygulama ödeme yapılmış gibi sahte kayıt oluşturmamalı; otomatik kayıt isteğe bağlı. |
 | Gelir takibi | MVP'de var | "Ne kadar kaldı?" sorusu gelir olmadan cevaplanamaz. |
 | Yedek / dışa aktarma | v0.2'ye çekildi | Veri sadece cihazda; kayıp riski erken çözülmeli. |
 | Dil sürümü | Swift 6 | Yeni projede strict concurrency baştan açılırsa ileride taşıma maliyeti olmaz. |
@@ -839,6 +828,7 @@ Bu rehber, başka iki rehber taslağıyla karşılaştırılarak güncellendi. F
 | AA metin rengi | Açık modda `over` `#C8553D`→`#B54A33`, `income` `#2E7D4F`→`#2A7449` | Eski değerler Bölüm 4.5'i geçmiyordu (Nane zemin üstünde 3.82 ve 4.43); ton aynı, her zeminde ≥4.6:1. Koyu mod değişmedi. |
 | Kategori ikon simgesi | Koyu modda tüm simgeler koyu; açık modda Hardal ve Nane'de koyu, diğerlerinde beyaz | Beyaz simge koyu modda 12 renkten 7'sinde, açık modda Hardal (2.43) ve Nane'de (2.96) 3:1'in altındaydı. Palet renkleri korunur. |
 | Planla sekmesi (v0.2) | Sekme çubuğu `Özet · İşlemler · (+) · Planla`; Planla şimdilik yalnızca Düzenli Ödemeler | Bütçeler v0.3'te gelir; yarım bir `Bütçeler` segmenti göstermek yerine segment o zaman eklenir (Bölüm 6.2-E). |
+| Bildirimler | **Uygulama hiç bildirim göndermez**, izin istenmez; arka plan yenileme (BGAppRefreshTask) yok | Kullanıcı kararı (27 Eylül 2026). Bekleyen ödemeler ve bütçe durumu Planla/Özet'te görünür; otomatik ödemeler uygulama açılınca/öne gelince işlenir, bildirimsiz arka plan işlemi görünür fark yaratmaz. |
 | Renk paleti | Bölüm 4'teki tokenlar geçerli | Diğer taslaklardaki öneriler (`#2E5A44`, `#245B45`, `#F9F9F6` vb.) aynı aileden; tek kaynak olsun diye Bölüm 4 esas alınır. |
 
 ---

@@ -112,7 +112,6 @@ final class RecurringFormModel: Identifiable {
             endDate: ending == .date ? endDate : nil,
             installments: ending == .installments ? max(installments, 1) : nil,
             mode: autoPost ? .autoPost : .confirm,
-            reminderDaysBefore: payment?.reminderDaysBefore,
             category: category,
             subcategory: subcategory,
             merchant: payment?.merchant,

@@ -22,7 +22,6 @@ struct RecurringPaymentRepository {
         var endDate: Date?
         var installments: Int?
         var mode: RecurringMode = .confirm
-        var reminderDaysBefore: Int?
         var category: Category?
         var subcategory: Category?
         var merchant: Merchant?
@@ -145,7 +144,7 @@ struct RecurringPaymentRepository {
     }
 
     /// Otomatik kayıtlı ödemelerin gelmiş vadelerini, vade gününe işler.
-    /// Açılışta ve arka planda çağrılır; tekrar çağrılması güvenlidir.
+    /// Açılışta ve uygulama öne geldiğinde çağrılır; tekrar çağrılması güvenlidir.
     @discardableResult
     func postDueAutomaticPayments(now: Date = .now) throws -> [Transaction] {
         let today = calendar.startOfDay(for: now)
@@ -188,7 +187,6 @@ struct RecurringPaymentRepository {
     private func apply(_ draft: Draft, to payment: RecurringPayment) {
         payment.endDate = draft.endDate.map { calendar.startOfDay(for: $0) }
         payment.remainingInstallments = draft.installments
-        payment.reminderDaysBefore = draft.reminderDaysBefore
         payment.category = draft.category
         payment.subcategory = draft.subcategory
         payment.merchant = draft.merchant

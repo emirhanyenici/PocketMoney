@@ -53,7 +53,7 @@ struct RecurringFormView: View {
                 } footer: {
                     Text(model.autoPost
                          ? "Vadesi gelince işlem kendiliğinden eklenir. Karttan kesin çekilen sabit tutarlı ödemeler için uygundur."
-                         : "Vadesi gelince hatırlatılır; \"Ödendi\" deyince işlem eklenir. Tutar o ay farklıysa değiştirebilirsin.")
+                         : "Vadesi gelince Planla'da bekler; \"Ödendi\" deyince işlem eklenir. Tutar o ay farklıysa değiştirebilirsin.")
                 }
                 .listRowBackground(Color.surface)
 

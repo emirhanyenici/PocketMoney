@@ -60,7 +60,7 @@ struct EditorDetailsSection: View {
                 .font(.body)
                 .tint(.brandPrimary)
             if model.makesRecurring {
-                Text("Her ayın \(Calendar.current.component(.day, from: model.date)). günü hatırlatılır. Sıklığı ve otomatik kaydı Planla'dan değiştirebilirsin.")
+                Text("Her ayın \(Calendar.current.component(.day, from: model.date)). günü Planla'da onayını bekler. Sıklığı ve otomatik kaydı oradan değiştirebilirsin.")
                     .font(.footnote)
                     .foregroundStyle(Color.textSecondary)
             }
