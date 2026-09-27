@@ -157,15 +157,24 @@ private struct AmountDisplay: View {
                     .foregroundStyle(Color.textSecondary)
             }
             if model.isAmountInvalid {
-                Text("Tutarı kontrol et. 0'dan büyük bir değer gir.")
+                Text(Self.invalidMessage)
                     .font(.footnote)
                     .foregroundStyle(Color.over)
             }
         }
         .padding(.horizontal, Spacing.screen)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel("Tutar")
-        .accessibilityValue(Text(verbatim: model.amount?.tryFormatted ?? "₺0"))
+        .accessibilityValue(Text(verbatim: spokenValue))
+    }
+
+    private static let invalidMessage: LocalizedStringResource = "Tutarı kontrol et. 0'dan büyük bir değer gir."
+
+    /// VoiceOver "642 lira 50 kuruş" okur; hata varsa değerin ardından söylenir
+    /// (etiket "Tutar" olduğundan birleştirilen hata metni aksi hâlde duyulmuyordu).
+    private var spokenValue: String {
+        let spoken = (model.amount ?? 0).spokenTRY
+        return model.isAmountInvalid ? spoken + ". " + String(localized: Self.invalidMessage) : spoken
     }
 }
 
