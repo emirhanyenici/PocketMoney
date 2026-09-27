@@ -7,29 +7,51 @@ import SwiftUI
 struct TransactionRow: View {
     let transaction: Transaction
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
-        HStack(spacing: Spacing.s) {
-            CategoryIcon(category: transaction.category)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: title)
-                    .font(.body)
-                    .foregroundStyle(Color.textPrimary)
-                    .lineLimit(1)
-                if !subtitle.isEmpty {
-                    Text(verbatim: subtitle)
-                        .font(.footnote)
-                        .foregroundStyle(Color.textSecondary)
-                        .lineLimit(1)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                // Erişilebilirlik boyutlarında yan yana sığmıyor; tutar kırpılmasın
+                // diye satır dikey dizilir (Bölüm 16).
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(spacing: Spacing.s) {
+                        CategoryIcon(category: transaction.category)
+                        // Tek kelimelik uzun adlar ("Starbucks") satır kıramaz; biraz küçülür.
+                        titleText.lineLimit(3).minimumScaleFactor(0.7)
+                    }
+                    subtitleText?.lineLimit(4)
+                    AmountText(amount: transaction.amount, kind: transaction.kind)
+                }
+            } else {
+                HStack(spacing: Spacing.s) {
+                    CategoryIcon(category: transaction.category)
+                    VStack(alignment: .leading, spacing: 2) {
+                        titleText.lineLimit(1)
+                        subtitleText?.lineLimit(1)
+                    }
+                    Spacer(minLength: Spacing.xs)
+                    AmountText(amount: transaction.amount, kind: transaction.kind)
                 }
             }
-            Spacer(minLength: Spacing.xs)
-            AmountText(amount: transaction.amount, kind: transaction.kind)
         }
         .padding(.vertical, Spacing.xxs)
         // Satırın tamamı dokunulabilir olsun; `.plain` buton stilinde aradaki
         // Spacer boşluğu aksi hâlde dokunmayı almaz.
         .contentShape(.rect)
         .accessibilityElement(children: .combine)
+    }
+
+    private var titleText: some View {
+        Text(verbatim: title)
+            .font(.body)
+            .foregroundStyle(Color.textPrimary)
+    }
+
+    private var subtitleText: (some View)? {
+        subtitle.isEmpty ? nil : Text(verbatim: subtitle)
+            .font(.footnote)
+            .foregroundStyle(Color.textSecondary)
     }
 
     private var title: String {
