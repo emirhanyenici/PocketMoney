@@ -123,10 +123,10 @@ Paranın çağrıştırdığı yeşiller, krem ve beyazla yumuşatılır. Tüm r
 
 | Token | Açık mod | Koyu mod | Kullanım |
 |---|---|---|---|
-| `income` | `#2E7D4F` | `#7FD1A0` | Gelir tutarları |
+| `income` | `#2A7449` | `#7FD1A0` | Gelir tutarları |
 | `expense` | `textPrimary` | `textPrimary` | Giderler **nötr** renkte gösterilir |
 | `warning` | `#D9A441` Bal | `#E6B964` | Bütçenin %80'i aşıldı |
-| `over` | `#C8553D` Kiremit | `#E07A63` | Bütçe aşıldı, gecikmiş ödeme |
+| `over` | `#B54A33` Kiremit | `#E07A63` | Bütçe aşıldı, gecikmiş ödeme |
 | `info` | `#4F7C8A` | `#8DB5C2` | Bilgi notları |
 
 ### 4.4 Kategori paleti
@@ -149,6 +149,8 @@ Kategori renkleri doygunluğu düşük, yeşil ana temayla uyumlu bir paletten s
 | 12 | Gri Taş | `#7C8781` | Diğer |
 
 Koyu modda bu renkler ~%15 açılarak kullanılır. Renk asla tek başına anlam taşımaz; her zaman ikon + etiket eşlik eder.
+
+**Daire üstündeki simge rengi** (`onCategory`, `onCategoryDark`): açık modda beyaz, yalnızca Hardal ve Nane'de koyu (`#0F1A14`); koyu modda tüm renklerde koyu (`#0F1A14`). Böylece simge her zeminde en az 3:1 kontrast verir (Bölüm 4.5).
 
 ### 4.5 Kontrast kuralı
 Tüm metin/zemin çiftleri WCAG AA (normal metin 4.5:1, büyük metin 3:1) oranını geçmelidir. Yeni renk eklendiğinde kontrast kontrol edilir.
@@ -834,8 +836,10 @@ Bu rehber, başka iki rehber taslağıyla karşılaştırılarak güncellendi. F
 | Alt gezinme | Özet · İşlemler · (+) · Planla · Analiz | Bütçeler ve düzenli ödemeler "ileriye dönük" tek sekmede; Ayarlar dişli ikonunda. |
 | Hızlı Ekle'de kategori seçimi | Yatay kaydırmalı çip yerine **ızgara + "Tümü" listesi**; alt kategoriler sarılan çipler | Kullanıcı geri bildirimi (26 Eylül 2026): yana kaydırılan çiplerde kategoriler görünmüyordu. Izgarada sık kullanılanlar tek bakışta görünür, geri kalanı "Tümü"nden aranır; 3 dokunuş hedefi korunur. |
 | Gelir girişinin bulunabilirliği | Özet kartında, dönemde gelir yoksa **"Gelir ekle"** kısayolu | Gelir yalnızca "+" sheet'indeki segmentte kaldığında fark edilmiyordu; net durum (Bölüm 6.2-A) gelir olmadan hesaplanamaz. |
+| AA metin rengi | Açık modda `over` `#C8553D`→`#B54A33`, `income` `#2E7D4F`→`#2A7449` | Eski değerler Bölüm 4.5'i geçmiyordu (Nane zemin üstünde 3.82 ve 4.43); ton aynı, her zeminde ≥4.6:1. Koyu mod değişmedi. |
+| Kategori ikon simgesi | Koyu modda tüm simgeler koyu; açık modda Hardal ve Nane'de koyu, diğerlerinde beyaz | Beyaz simge koyu modda 12 renkten 7'sinde, açık modda Hardal (2.43) ve Nane'de (2.96) 3:1'in altındaydı. Palet renkleri korunur. |
 | Renk paleti | Bölüm 4'teki tokenlar geçerli | Diğer taslaklardaki öneriler (`#2E5A44`, `#245B45`, `#F9F9F6` vb.) aynı aileden; tek kaynak olsun diye Bölüm 4 esas alınır. |
 
 ---
 
-*Son güncelleme: 23 Eylül 2026 · Sürüm: guideline v1.1 (iki ek rehber taslağıyla birleştirildi)*
+*Son güncelleme: 27 Eylül 2026 · Sürüm: guideline v1.2 (kontrast düzeltmeleri)*

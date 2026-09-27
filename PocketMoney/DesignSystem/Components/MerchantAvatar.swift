@@ -11,7 +11,7 @@ struct MerchantAvatar: View {
     var body: some View {
         Text(verbatim: initials)
             .font(.system(size: size * scale * 0.38, weight: .semibold, design: .rounded))
-            .foregroundStyle(.white)
+            .foregroundStyle(Color.categoryGlyph(token: colorToken ?? CategoryColor.stone.rawValue))
             .frame(width: size * scale, height: size * scale)
             .background(Color.category(token: colorToken ?? CategoryColor.stone.rawValue), in: .circle)
             .accessibilityHidden(true)

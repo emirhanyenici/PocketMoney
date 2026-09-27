@@ -101,6 +101,16 @@ enum CategoryColor: String, CaseIterable {
         case .stone: .catStone
         }
     }
+
+    /// Daire üstündeki simge/harf rengi; 3:1 kontrast için (Bölüm 4.4, 4.5).
+    /// Koyu modda açılan renklerde beyaz yetmediğinden simge koyudur; açık modda
+    /// beyaz, yalnızca Hardal ve Nane gibi açık tonlarda koyu.
+    var glyph: Color {
+        switch self {
+        case .mustard, .mint: .onCategoryDark
+        default: .onCategory
+        }
+    }
 }
 
 extension Color {
@@ -113,5 +123,10 @@ extension Color {
     /// Token tanınmıyorsa nötr "Gri Taş" rengine düşer.
     static func category(token: String) -> Color {
         (CategoryColor(rawValue: token) ?? .stone).color
+    }
+
+    /// `category(token:)` zemininin üstündeki simge rengi.
+    static func categoryGlyph(token: String) -> Color {
+        (CategoryColor(rawValue: token) ?? .stone).glyph
     }
 }

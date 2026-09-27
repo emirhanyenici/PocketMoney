@@ -52,7 +52,7 @@ struct CategoryFormView: View {
                                         if option == color {
                                             Image(systemName: "checkmark")
                                                 .font(.headline)
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(option.glyph)
                                         }
                                     }
                                     .frame(minWidth: 44, minHeight: 44)

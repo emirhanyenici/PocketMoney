@@ -13,7 +13,7 @@ struct CategoryIcon: View {
     var body: some View {
         Image(systemName: symbolName)
             .font(.system(size: size * scale * 0.45, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(Color.categoryGlyph(token: colorToken))
             .frame(width: size * scale, height: size * scale)
             .background(Color.category(token: colorToken), in: .circle)
             .accessibilityHidden(true)
