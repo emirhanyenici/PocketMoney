@@ -156,10 +156,11 @@ private struct AmountDisplay: View {
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
             }
-            if model.isAmountInvalid {
-                Text(Self.invalidMessage)
+            if let message = errorMessage {
+                Text(message)
                     .font(.footnote)
                     .foregroundStyle(Color.over)
+                    .multilineTextAlignment(.center)
             }
         }
         .padding(.horizontal, Spacing.screen)
@@ -168,13 +169,18 @@ private struct AmountDisplay: View {
         .accessibilityValue(Text(verbatim: spokenValue))
     }
 
-    private static let invalidMessage: LocalizedStringResource = "Tutarı kontrol et. 0'dan büyük bir değer gir."
+    private var errorMessage: LocalizedStringResource? {
+        if model.expression.isTooLarge { return "Tutar çok büyük. En fazla ₺999.999.999,99 girebilirsin." }
+        if model.isAmountInvalid { return "Tutarı kontrol et. 0'dan büyük bir değer gir." }
+        return nil
+    }
 
     /// VoiceOver "642 lira 50 kuruş" okur; hata varsa değerin ardından söylenir
     /// (etiket "Tutar" olduğundan birleştirilen hata metni aksi hâlde duyulmuyordu).
     private var spokenValue: String {
         let spoken = (model.amount ?? 0).spokenTRY
-        return model.isAmountInvalid ? spoken + ". " + String(localized: Self.invalidMessage) : spoken
+        guard let errorMessage else { return spoken }
+        return spoken + ". " + String(localized: errorMessage)
     }
 }
 

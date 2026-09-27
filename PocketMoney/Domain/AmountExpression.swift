@@ -42,8 +42,23 @@ nonisolated struct AmountExpression: Equatable, Sendable {
         text.contains { Operator(rawValue: $0) != nil }
     }
 
-    /// İfadenin sonucu, 2 haneye yuvarlanmış. Boşsa `nil`; sondaki işlem yok sayılır.
+    /// Kaydedilebilecek en büyük tutar; tek sayı girişi de (9 hane) bununla sınırlı.
+    static let maxValue = Decimal(string: "999999999.99") ?? 0
+
+    /// İfadenin sonucu, 2 haneye yuvarlanmış. Boşsa veya sınırı aşıyorsa `nil`;
+    /// sondaki işlem yok sayılır.
     var value: Decimal? {
+        guard let result = unboundedValue, !isTooLarge else { return nil }
+        return result
+    }
+
+    /// Uzun çarpma zinciri `Decimal` sınırını aşıp NaN üretebiliyordu; hata metni için.
+    var isTooLarge: Bool {
+        guard let result = unboundedValue else { return false }
+        return result.isNaN || result > Self.maxValue
+    }
+
+    private var unboundedValue: Decimal? {
         var numbers: [Decimal] = []
         var operators: [Operator] = []
         var current = ""
