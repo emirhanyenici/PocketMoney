@@ -59,13 +59,43 @@
     "%lld alt kategori" : {
 
     },
+    "%lld gün geçti" : {
+
+    },
+    "%lld gün sonra" : {
+
+    },
+    "%lld günde bir" : {
+
+    },
     "%lld kayıtta kullanıldı." : {
+
+    },
+    "%lld otomatik ödeme eklendi" : {
+
+    },
+    "%lld taksit kaldı" : {
+
+    },
+    "₺0" : {
 
     },
     "1 seçiliyse dönemler takvim ayıdır. Maaşının yattığı günü seçersen dönemlerin o günden başlar; örneğin 15 seçersen Eylül dönemi 15 Eylül'den 14 Ekim'e kadar sürer. Kayıtların değişmez, yalnızca gruplanışı değişir." : {
 
     },
+    "3 ayda bir" : {
+
+    },
+    "6 ayda bir" : {
+
+    },
+    "Abonelik ara" : {
+
+    },
     "Ad" : {
+
+    },
+    "Ad (ör. Kira, Netflix)" : {
 
     },
     "Ad boş kalamaz. Bir ad yaz." : {
@@ -107,10 +137,19 @@
     "artı " : {
 
     },
+    "Atlanamadı. Tekrar dene." : {
+
+    },
     "Ayarlar" : {
 
     },
+    "Ayda %lld. gün yoksa ödeme ayın son gününe düşer." : {
+
+    },
     "Ayın %lld. günü" : {
+
+    },
+    "Aylık" : {
 
     },
     "Aynı marka yanlışlıkla iki kez eklendiyse birleştir; bu markanın kayıtları seçtiğin markaya taşınır." : {
@@ -122,10 +161,28 @@
     "Başka bir markayla birleştir" : {
 
     },
+    "Başlangıç" : {
+
+    },
     "Bir marka kendisiyle birleştirilemez. Başka bir marka seç." : {
 
     },
     "Birleştirilsin mi?" : {
+
+    },
+    "Biten ödemeler" : {
+
+    },
+    "Bitiş" : {
+
+    },
+    "Bitiş tarihi" : {
+
+    },
+    "Bitmez" : {
+
+    },
+    "Bitti" : {
 
     },
     "Bu adda bir kategori zaten var. Başka bir ad dene." : {
@@ -137,16 +194,38 @@
     "Bu ay henüz harcama yok. İlkini eklemek 5 saniye sürer." : {
 
     },
+    "Bu dönem kalan: %@ (%lld ödeme)" : {
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bu dönem kalan: %1$@ (%2$lld ödeme)"
+          }
+        }
+      }
+    },
     "Bu dönemde kayıt yok." : {
 
     },
     "Bu döneme dön" : {
 
     },
+    "Bu dönemin sabit ödemeleri tamam." : {
+
+    },
     "Bu kategoriye taşınamaz. Başka bir kategori seç." : {
 
     },
     "Bu markayı seçtiğinde önerilir. Kayıt sırasında kendi seçtiğin kategori her zaman önceliklidir." : {
+
+    },
+    "Bu vade atlandı" : {
+
+    },
+    "Bu vade ödenmediyse veya iptal olduysa: işlem eklenmez, sonraki vadeye geçilir." : {
+
+    },
+    "Bu vadeyi atla" : {
 
     },
     "Bugün" : {
@@ -164,6 +243,9 @@
     "Diğer" : {
 
     },
+    "Dijital Abonelikler" : {
+
+    },
     "Dönem" : {
 
     },
@@ -174,6 +256,18 @@
 
     },
     "Düzenle" : {
+
+    },
+    "Düzenli ödeme" : {
+
+    },
+    "Düzenli ödeme ekle" : {
+
+    },
+    "Düzenli ödeme silinsin mi?" : {
+
+    },
+    "Düzenli ödemeyi sil" : {
 
     },
     "Ekle" : {
@@ -192,6 +286,15 @@
         }
       }
     },
+    "Fiyat arttı" : {
+
+    },
+    "Fiyat düştü" : {
+
+    },
+    "Fiyat geçmişi" : {
+
+    },
     "Geçen döneme göre %@ az" : {
 
     },
@@ -199,6 +302,9 @@
 
     },
     "Geçen dönemle aynı" : {
+
+    },
+    "Geçmiş işlemlerin silinmez." : {
 
     },
     "Gelir" : {
@@ -237,6 +343,9 @@
     "Gül kurusu" : {
 
     },
+    "Haftalık" : {
+
+    },
     "Harcama ekle" : {
 
     },
@@ -247,6 +356,15 @@
 
     },
     "Henüz kayıt yok. İlkini eklemek 5 saniye sürer." : {
+
+    },
+    "Her %lld günde bir" : {
+
+    },
+    "Her ay sabit" : {
+
+    },
+    "Her N günde bir" : {
 
     },
     "İkon" : {
@@ -303,7 +421,13 @@
     "Kaydedilemedi" : {
 
     },
+    "Kaydedilemedi. Ad ve tutarı kontrol edip tekrar dene." : {
+
+    },
     "Kaydedilemedi. Tekrar dene." : {
+
+    },
+    "Kaydedilemedi. Tutarı kontrol edip tekrar dene." : {
 
     },
     "Kaydet" : {
@@ -328,6 +452,15 @@
 
     },
     "Kayıtların şu an açılamıyor" : {
+
+    },
+    "Kendin oluştur" : {
+
+    },
+    "Kira, fatura ve aboneliklerini ekle; vadesi gelince hatırlatayım." : {
+
+    },
+    "Konut & Faturalar" : {
 
     },
     "Kopyala" : {
@@ -369,7 +502,19 @@
     "Not" : {
 
     },
+    "Ödeme günü" : {
+
+    },
+    "Ödeme tarihi" : {
+
+    },
     "Ödeme yöntemi" : {
+
+    },
+    "Ödendi" : {
+
+    },
+    "Ödendi olarak kaydedildi" : {
 
     },
     "Olmadı" : {
@@ -390,13 +535,28 @@
     "Orman" : {
 
     },
+    "otomatik" : {
+
+    },
+    "Otomatik kaydet" : {
+
+    },
     "Özet" : {
+
+    },
+    "Periyot" : {
 
     },
     "Petrol" : {
 
     },
+    "Planla" : {
+
+    },
     "Renk" : {
+
+    },
+    "Seçilmedi" : {
 
     },
     "Sil" : {
@@ -408,6 +568,9 @@
     "Silinemedi. Tekrar dene." : {
 
     },
+    "Sıklık" : {
+
+    },
     "Sıralama kaydedilemedi" : {
 
     },
@@ -417,10 +580,16 @@
     "Son işlemler" : {
 
     },
+    "Son ödeme" : {
+
+    },
     "Sonraki dönem" : {
 
     },
     "Şu anki dönem" : {
+
+    },
+    "Taksit sayısı" : {
 
     },
     "Tamam" : {
@@ -459,13 +628,31 @@
     "Tutar çok büyük. En fazla ₺999.999.999,99 girebilirsin." : {
 
     },
+    "Tutar yalnızca bu vade için değişir; düzenli tutar aynı kalır." : {
+
+    },
     "Tutarı kontrol et. 0'dan büyük bir değer gir." : {
+
+    },
+    "Ulaşım" : {
+
+    },
+    "Vadesi gelince hatırlatılır; \"Ödendi\" deyince işlem eklenir. Tutar o ay farklıysa değiştirebilirsin." : {
+
+    },
+    "Vadesi gelince işlem kendiliğinden eklenir. Karttan kesin çekilen sabit tutarlı ödemeler için uygundur." : {
 
     },
     "Vazgeç" : {
 
     },
     "Virgül" : {
+
+    },
+    "Yarın" : {
+
+    },
+    "Yeni düzenli ödeme" : {
 
     },
     "Yeni kategori" : {
@@ -475,6 +662,9 @@
 
     },
     "Yeniden adlandır" : {
+
+    },
+    "Yıllık" : {
 
     },
     "Yok" : {

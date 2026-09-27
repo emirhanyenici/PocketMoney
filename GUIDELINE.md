@@ -838,6 +838,7 @@ Bu rehber, başka iki rehber taslağıyla karşılaştırılarak güncellendi. F
 | Gelir girişinin bulunabilirliği | Özet kartında, dönemde gelir yoksa **"Gelir ekle"** kısayolu | Gelir yalnızca "+" sheet'indeki segmentte kaldığında fark edilmiyordu; net durum (Bölüm 6.2-A) gelir olmadan hesaplanamaz. |
 | AA metin rengi | Açık modda `over` `#C8553D`→`#B54A33`, `income` `#2E7D4F`→`#2A7449` | Eski değerler Bölüm 4.5'i geçmiyordu (Nane zemin üstünde 3.82 ve 4.43); ton aynı, her zeminde ≥4.6:1. Koyu mod değişmedi. |
 | Kategori ikon simgesi | Koyu modda tüm simgeler koyu; açık modda Hardal ve Nane'de koyu, diğerlerinde beyaz | Beyaz simge koyu modda 12 renkten 7'sinde, açık modda Hardal (2.43) ve Nane'de (2.96) 3:1'in altındaydı. Palet renkleri korunur. |
+| Planla sekmesi (v0.2) | Sekme çubuğu `Özet · İşlemler · (+) · Planla`; Planla şimdilik yalnızca Düzenli Ödemeler | Bütçeler v0.3'te gelir; yarım bir `Bütçeler` segmenti göstermek yerine segment o zaman eklenir (Bölüm 6.2-E). |
 | Renk paleti | Bölüm 4'teki tokenlar geçerli | Diğer taslaklardaki öneriler (`#2E5A44`, `#245B45`, `#F9F9F6` vb.) aynı aileden; tek kaynak olsun diye Bölüm 4 esas alınır. |
 
 ---

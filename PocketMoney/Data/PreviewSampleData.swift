@@ -42,6 +42,22 @@ enum PreviewSampleData {
             ))
         }
         try context.save()
+        try insertRecurringPayments(into: context)
+    }
+
+    /// Planla önizlemesi: bekleyen, yaklaşan ve otomatik düzenli ödemeler.
+    static func insertRecurringPayments(into context: ModelContext) throws {
+        let categories = try context.fetch(FetchDescriptor<Category>())
+        func main(_ name: String) -> Category? { categories.first { $0.name == name && $0.parent == nil } }
+        let calendar = LocalDay.currentCalendar
+        let today = calendar.component(.day, from: .now)
+        let repository = RecurringPaymentRepository(context: context)
+        let lastWeek = calendar.date(byAdding: .day, value: -40, to: .now) ?? .now
+
+        try repository.create(.init(name: "Kira", amount: 15000, dayOfPeriod: max(today - 2, 1), startDate: lastWeek, category: main("Konut")))
+        try repository.create(.init(name: "Elektrik", amount: 850, dayOfPeriod: min(today + 5, 28), category: main("Konut")))
+        try repository.create(.init(name: "Netflix", amount: 229.99, dayOfPeriod: min(today + 12, 28), mode: .autoPost, category: main("Abonelikler")))
+        try repository.create(.init(name: "iCloud+", amount: 1199, frequency: .yearly, dayOfPeriod: 3, mode: .autoPost, category: main("Abonelikler")))
     }
 }
 #endif

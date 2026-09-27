@@ -7,6 +7,7 @@ import SwiftUI
 struct RootTabView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var selection: AppTab = .overview
     @State private var editor: EditorPresentation?
@@ -40,8 +41,16 @@ struct RootTabView: View {
                 Color.clear
             }
             .accessibilityLabel("Harcama ekle")
+            Tab("Planla", systemImage: "calendar", value: AppTab.plan) {
+                RecurringListView { show(Toast(message: $0)) }
+            }
         }
         .tint(.brandPrimary)
+        // Otomatik kayıtlı düzenli ödemelerin gelmiş vadeleri (Bölüm 9.4).
+        // Arka plan yenilemesi v0.2'nin 3. maddesinde eklenir.
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            if phase == .active { postDueAutomaticPayments() }
+        }
         .onChange(of: selection) { previous, current in
             // "+" bir sekme değil, eylemdir: sheet'i aç ve önceki sekmede kal.
             if current == .add {
@@ -117,6 +126,17 @@ struct RootTabView: View {
         } catch {
             logger.error("Silme başarısız: \(error.localizedDescription, privacy: .public)")
             show(Toast(message: String(localized: "Silinemedi. Tekrar dene.")))
+        }
+    }
+
+    private func postDueAutomaticPayments() {
+        do {
+            let posted = try RecurringPaymentRepository(context: context).postDueAutomaticPayments()
+            if !posted.isEmpty {
+                show(Toast(message: String(localized: "\(posted.count) otomatik ödeme eklendi")))
+            }
+        } catch {
+            logger.error("Otomatik ödemeler eklenemedi: \(error.localizedDescription, privacy: .public)")
         }
     }
 

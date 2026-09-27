@@ -1,12 +1,13 @@
 import Foundation
 
-/// Alt tab bar sekmeleri (Bölüm 6.1). Planla ve Analiz v0.2–v0.3'te eklenir;
-/// sıralama korunduğu için o zaman "+" ortaya oturur.
+/// Alt tab bar sekmeleri (Bölüm 6.1). Analiz v0.3'te eklenir.
 enum AppTab: Hashable {
     case overview
     case transactions
     /// Sekme değil; seçildiğinde ekleme sheet'i açılır, önceki sekme korunur.
     case add
+    /// Şimdilik yalnızca Düzenli Ödemeler; Bütçeler v0.3'te segment olarak gelir.
+    case plan
 }
 
 /// Ekleme/düzenleme sheet'inin nasıl açıldığı.
