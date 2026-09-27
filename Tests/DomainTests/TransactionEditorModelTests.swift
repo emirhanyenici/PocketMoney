@@ -156,6 +156,19 @@ struct TransactionEditorModelTests {
         #expect(model.category == nil)
     }
 
+    @Test func archivedSubcategoryStaysVisibleOnlyWhileSelected() throws {
+        let food = try category("Yeme & İçme")
+        let coffee = try category("Yeme & İçme", "Kahve & Kafe")
+        try CategoryRepository(context: context).setArchived(coffee, true)
+
+        let model = TransactionEditorModel()
+        model.select(category: food, subcategory: coffee)
+        #expect(model.subcategories.contains(coffee))
+
+        model.select(category: food, subcategory: nil)
+        #expect(!model.subcategories.contains(coffee))
+    }
+
     @Test func newMerchantFromIncomeGetsNoSuggestedCategory() throws {
         let model = TransactionEditorModel(initialKind: .income)
         model.expression.input(.digit(3))

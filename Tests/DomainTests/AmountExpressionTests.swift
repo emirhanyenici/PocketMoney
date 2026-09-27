@@ -33,6 +33,23 @@ struct AmountExpressionTests {
         #expect(expression.hasOperator)
     }
 
+    @Test func overflowingProductIsRejectedNotNaN() {
+        // 999999999 × 999999999 × … Decimal sınırını aşar.
+        let nines: [AmountExpression.Key] = Array(repeating: .digit(9), count: 9)
+        var keys = nines
+        for _ in 0..<20 { keys += [.multiply] + nines }
+        let expression = type(keys)
+        #expect(expression.value == nil)
+        #expect(expression.isTooLarge)
+    }
+
+    @Test func acceptsUpToMaxValue() {
+        let expression = type(Array(repeating: .digit(9), count: 9) + [.decimalSeparator, .digit(9), .digit(9)])
+        #expect(expression.value == AmountExpression.maxValue)
+        #expect(!expression.isTooLarge)
+        #expect(type([.digit(5), .digit(0), .digit(0), .digit(0), .digit(0), .multiply, .digit(5), .digit(0), .digit(0), .digit(0), .digit(0), .digit(0)]).isTooLarge)
+    }
+
     @Test func subtraction() {
         #expect(type([.digit(5), .digit(0), .subtract, .digit(1), .digit(2), .decimalSeparator, .digit(5)]).value == Decimal(string: "37.5"))
     }
