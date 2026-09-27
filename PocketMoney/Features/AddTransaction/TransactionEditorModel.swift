@@ -164,9 +164,11 @@ final class TransactionEditorModel {
         return featured
     }
 
+    /// Gizlenen alt kategoriler önerilmez; ama eski bir kaydı düzenlerken seçili
+    /// olan görünür kalır, yoksa seçim ekranda kaybolurdu.
     var subcategories: [Category] {
         (category?.children ?? [])
-            .filter { !$0.isArchived }
+            .filter { !$0.isArchived || $0 == subcategory }
             .sorted { $0.sortOrder < $1.sortOrder }
     }
 
