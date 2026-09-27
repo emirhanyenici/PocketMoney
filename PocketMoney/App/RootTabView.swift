@@ -33,9 +33,11 @@ struct RootTabView: View {
                     onCopy: duplicate
                 )
             }
-            Tab("Harcama ekle", systemImage: "plus.circle.fill", value: AppTab.add) {
+            // Bölüm 6.1: belirgin "+ Ekle"; VoiceOver etiketi "Harcama ekle".
+            Tab("Ekle", systemImage: "plus", value: AppTab.add, role: Self.addTabRole) {
                 Color.clear
             }
+            .accessibilityLabel("Harcama ekle")
         }
         .tint(.brandPrimary)
         .onChange(of: selection) { previous, current in
@@ -54,6 +56,11 @@ struct RootTabView: View {
         .overlay(alignment: .bottom) { toastOverlay }
         .sensoryFeedback(.success, trigger: savedCount)
         .sensoryFeedback(.warning, trigger: deletedCount)
+    }
+
+    /// iOS 27'de sistem "+" sekmesini ayrı, vurgulu çizer; iOS 26'da düz sekme kalır.
+    private static var addTabRole: TabRole? {
+        if #available(iOS 27.0, *) { .prominent } else { nil }
     }
 
     // MARK: - Bildirim
