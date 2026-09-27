@@ -11,6 +11,8 @@ struct RootTabView: View {
     @State private var selection: AppTab = .overview
     @State private var editor: EditorPresentation?
     @State private var toast: Toast?
+    /// "Geri al" görünürken gelen düz bildirim; geri alma şansı kaybolmasın diye bekler.
+    @State private var queuedToast: Toast?
     @State private var savedCount = 0
     @State private var deletedCount = 0
 
@@ -68,7 +70,7 @@ struct RootTabView: View {
     @ViewBuilder
     private var toastOverlay: some View {
         if let toast {
-            ToastView(toast: toast) { self.toast = nil }
+            ToastView(toast: toast) { hideToast() }
                 .padding(.bottom, 72)
                 .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
                 .task(id: toast.id) {
@@ -78,12 +80,22 @@ struct RootTabView: View {
         }
     }
 
+    /// Yeni "Geri al" bildirimi öncekinin yerini alır (en son silme geri alınır);
+    /// düz bildirim ise açık bir "Geri al"ın üstüne yazmaz, sıraya girer.
     private func show(_ newToast: Toast) {
+        if toast?.action != nil, newToast.action == nil {
+            queuedToast = newToast
+            return
+        }
         withAnimation(reduceMotion ? nil : .snappy(duration: 0.3)) { toast = newToast }
     }
 
     private func hideToast() {
         withAnimation(reduceMotion ? nil : .smooth(duration: 0.3)) { toast = nil }
+        if let next = queuedToast {
+            queuedToast = nil
+            show(next)
+        }
     }
 
     // MARK: - Eylemler
