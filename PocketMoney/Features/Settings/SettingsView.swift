@@ -45,6 +45,8 @@ struct SettingsView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Color.background)
+        // Sekme çubuğundan miras alınır ama önizlemede ve başka girişlerde mavi kalıyordu.
+        .tint(.brandPrimary)
         .navigationTitle("Ayarlar")
         .navigationBarTitleDisplayMode(.inline)
     }
