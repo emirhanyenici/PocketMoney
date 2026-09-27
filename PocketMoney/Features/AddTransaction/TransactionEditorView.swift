@@ -53,6 +53,9 @@ struct TransactionEditorView: View {
 
                 if !isTypingText {
                     AmountKeypad { model.expression.input($0) }
+                        // Rakamlar zaten iri; erişilebilirlik boyutlarında tuş takımı ekranın
+                        // yarısını kaplayıp kategorileri gizliyordu (Bölüm 16).
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                         .padding(Spacing.screen)
                         .background(Color.surfaceMint)
                         .transition(.move(edge: .bottom).combined(with: .opacity))

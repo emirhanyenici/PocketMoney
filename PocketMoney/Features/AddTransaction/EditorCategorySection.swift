@@ -10,9 +10,15 @@ struct EditorCategorySection: View {
     let categories: [Category]
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var showsAllCategories = false
 
-    private let columns = [GridItem(.adaptive(minimum: 78), spacing: Spacing.xs)]
+    /// Erişilebilirlik boyutlarında 2 sütun: adlar harf harf bölünmesin (Bölüm 16).
+    private var columns: [GridItem] {
+        dynamicTypeSize.isAccessibilitySize
+            ? Array(repeating: GridItem(.flexible(), spacing: Spacing.xs), count: 2)
+            : [GridItem(.adaptive(minimum: 78), spacing: Spacing.xs)]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.s) {

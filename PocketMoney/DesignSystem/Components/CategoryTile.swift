@@ -10,6 +10,8 @@ struct CategoryTile: View {
     let isSelected: Bool
     let action: () -> Void
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: Spacing.xxs + 2) {
@@ -19,8 +21,9 @@ struct CategoryTile: View {
                     .foregroundStyle(isSelected ? Color.brandPrimaryDeep : Color.textPrimary)
                     .multilineTextAlignment(.center)
                     // İki satır yer her kutuda ayrılır; kutular ve ikonlar aynı hizada kalır.
-                    .lineLimit(2, reservesSpace: true)
-                    .minimumScaleFactor(0.85)
+                    // Erişilebilirlik boyutlarında sınır kalkar, ad tam okunur.
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 4 : 2, reservesSpace: !dynamicTypeSize.isAccessibilitySize)
+                    .minimumScaleFactor(dynamicTypeSize.isAccessibilitySize ? 1 : 0.85)
                     .frame(maxWidth: .infinity)
             }
             .padding(.vertical, Spacing.xs)
